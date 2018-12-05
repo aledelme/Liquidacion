@@ -7,7 +7,9 @@ package liquidacion;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,20 +20,15 @@ public class OrdenDao {
     private Connection connection;
     
     public OrdenDao(){
-        
         this.connection = new liquidacion.ConnectionFactory().getConnection();        
     }
     
-        public void añadir (Orden orden){
-        
+    public void añadir (Orden orden){
         String sql = "insert into orden (contrapartida, bic_contrapartida, sentido, importe, divisa, fecha_valor, corresponsal_propio, cuenta_corresponsal_propio, corresponsal_ajeno, cuenta_corresponsal_ajeno, tipo_mensaje) values (?,?,?,?,?,?,?,?,?,?,?)";
-        
         try{
-            
             //prepared statement para inserir la conexion
-            
             PreparedStatement stmt = this.connection.prepareStatement(sql);
-            
+
             //setear los valores
             stmt.setString(1, orden.getContrapartida());            
             stmt.setString(2, orden.getBICContrapartida());
@@ -44,22 +41,63 @@ public class OrdenDao {
             stmt.setString(9, orden.getCorresponsalAjeno());
             stmt.setString(10, orden.getCuentaCorresponsalAjeno());
             stmt.setString(11, orden.getTipoMensaje());
-            
-            
-  
-            
-            
+
             //executar
-            
             stmt.execute();
             stmt.close();
-            
+
         } catch (SQLException e){
             throw new RuntimeException (e);
-            
         }
-        
     }    
     
+    public ArrayList<Orden> listarOrdenes(){
+        ArrayList<Orden> ordenes = new ArrayList<>();
+        String sql = "select * from orden " +
+                    "where bic_entidad like '%%' " +
+                    "and ref_orden like '%%' " +
+                    "and corresponsal_propio like '%%' " +
+                    "and estado like '%%' " +
+                    "and divisa like '%%'";
+        
+        try{
+            PreparedStatement stmt = this.connection.prepareStatement(sql);       
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                Orden o = new Orden();
+                
+//                o.setId(rs.getString("id"));
+                o.setBICEntidad(rs.getString("bic_entidad"));
+//                o.setRefOrden(rs.getString("ref_orden"));
+                o.setContrapartida(rs.getString("contrapartida"));
+                o.setBICContrapartida(rs.getString("bic_contrapartida"));
+                o.setSentido(rs.getString("sentido"));
+                o.setImporte(rs.getDouble("importe"));
+                o.setDivisa(rs.getString("divisa"));
+                o.setFechaValor(rs.getDate("fecha_valor"));
+                o.setCorresponsalPropio(rs.getString("corresponsal_propio"));
+                o.setCuentaCorresponsalPropio(rs.getString("cuenta_corresponsal_propio"));
+                o.setCorresponsalAjeno(rs.getString("corresponsal_ajeno"));
+                o.setCuentaCorresponsalAjeno(rs.getString("cuenta_corresponsal_ajeno"));
+                o.setTipoMensaje(rs.getString("tipo_mensaje"));
+//                o.setEstado(rs.getString("estado"));
+ 
+                ordenes.add(o);
+            }
+            rs.close();
+            stmt.close();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return ordenes;
+    }
     
+    public void closeConnetion(){
+        try{
+            if(!connection.isClosed())
+                connection.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }
