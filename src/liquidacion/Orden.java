@@ -8,9 +8,6 @@ package liquidacion;
 import java.sql.Date;
 
 
-
-
-
 /**
  *
  * @author alejandro.delmedico
@@ -30,6 +27,10 @@ public class Orden {
     private String corresponsalAjeno;    
     private String cuentaCorresponsalAjeno;    
     private String tipoMensaje;
+    
+    private String estado;
+    private Date fechaLiberacion;
+    private Date fechaLiquidacion;
     
     public Orden(){
     }
@@ -168,4 +169,30 @@ public class Orden {
     public void setFechaValor(Date fechaValor) {
         this.fechaValor = fechaValor;
     } 
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public Date getFechaLiberacion() {
+        return fechaLiberacion;
+    }
+
+    public void setFechaLiberacion(Date fechaLiberacion) {
+        this.fechaLiberacion = fechaLiberacion;
+    }
+
+    public Date getFechaLiquidacion() {
+        return fechaLiquidacion;
+    }
+
+    public void setFechaLiquidacion(Date fechaLiquidacion) {
+        this.fechaLiquidacion = fechaLiquidacion;
+    }
+    
+    
 }

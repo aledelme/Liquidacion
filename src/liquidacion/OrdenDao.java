@@ -93,14 +93,30 @@ public class OrdenDao {
         }
     }    
     
-    public ArrayList<Orden> listarOrdenes(){
+    public ArrayList<Orden> listarOrdenes(Filtro filtro){
         ArrayList<Orden> ordenes = new ArrayList<>();
         String sql = "select * from orden " +
-                    "where bic_entidad like '%%' " +
-                    "and ref_orden like '%%' " +
-                    "and corresponsal_propio like '%%' " +
-                    "and estado like '%%' " +
-                    "and divisa like '%%'";
+                    "where bic_entidad like '%"+filtro.getBICEntidad()+"%' " +
+                    "and ref_orden like '%"+filtro.getRefOrden()+"%' " +
+                    "and corresponsal_propio like '%"+filtro.getCorresponsalPropio()+"%' " +
+                    "and estado like '%"+filtro.getEstado()+"%' " +
+                    "and divisa like '%"+filtro.getDivisa()+"%'";
+        if(filtro.getImporte() > 0)
+            sql += " and importe > 0" + filtro.getImporte();
+        if(filtro.getImporteMax()> 0)
+            sql += " and importe < 0" + filtro.getImporteMax();
+        if(filtro.getFechaLiberacion() != null)
+            sql += " and fecha_liberacion > " + filtro.getFechaLiberacion();
+        if(filtro.getFechaLiberacionMax() != null)
+            sql += " and fecha_liberacion < " + filtro.getFechaLiberacionMax();
+        if(filtro.getFechaValor()!= null)
+            sql += " and fecha_valor > " + filtro.getFechaValor();
+        if(filtro.getFechaValorMax()!= null)
+            sql += " and fecha_valor < " + filtro.getFechaValorMax();
+        if(filtro.getFechaLiquidacion() != null)
+            sql += " and fecha_liquidacion > " + filtro.getFechaLiquidacion();
+        if(filtro.getFechaLiquidacionMax() != null)
+            sql += " and fecha_liquidacion < " + filtro.getFechaLiquidacionMax();
         
         try{
             PreparedStatement stmt = this.connection.prepareStatement(sql);       
