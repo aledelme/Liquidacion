@@ -9,15 +9,18 @@ import java.sql.Date;
 
 
 
+
+
 /**
  *
  * @author alejandro.delmedico
  */
 public class Orden {
+   
     
-    private String BICEntidad;
+    private String BICEntidad = "BSCHESMMXXX";
     
-    private long refOrden;
+    private String refOrden;
     
     private String contrapartida;
     
@@ -25,7 +28,11 @@ public class Orden {
     
     private String sentido;
     
-    private double importe;   
+    private double importe;
+    
+    private Date fechaValor;
+       
+    private String divisa;
     
     private String corresponsalPropio;
     
@@ -37,11 +44,46 @@ public class Orden {
     
     private String tipoMensaje;
     
-    private Date fechaValor;
+ 
     
-    private String divisa;
+
    
     
+    public Orden (String BICEntidad,String refOrden, String contrapartida, String BICContrapartida, String sentido, double importe, Date fechaValor, String divisa, String corresponsalPropio, String cuentaCorresponsalPropio, String corresponsalAjeno, String cuentaCorrespAjeno, String tipoMensaje){
+        
+        this.BICEntidad = BICEntidad;
+        this.refOrden = refOrden;
+        this.contrapartida = contrapartida;
+        this.BICContrapartida = BICContrapartida;
+        this.sentido = sentido;
+        this.importe = importe;
+        this.fechaValor = fechaValor;
+        this.divisa = divisa;
+        this.corresponsalPropio = corresponsalAjeno;
+        this.cuentaCorresponsalPropio = cuentaCorresponsalPropio;
+        this.corresponsalAjeno = corresponsalAjeno;
+        this.cuentaCorresponsalAjeno = cuentaCorresponsalAjeno;
+        this.tipoMensaje = tipoMensaje;
+        
+        
+    }
+    
+    public Orden (String BICEntidad, String contrapartida, String BICContrapartida, String sentido, double importe, String divisa, String corresponsalPropio, String cuentaCorresponsalPropio, String corresponsalAjeno, String cuentaCorrespAjeno, String tipoMensaje){
+        
+        this.BICEntidad = BICEntidad;
+        this.contrapartida = contrapartida;
+        this.BICContrapartida = BICContrapartida;
+        this.sentido = sentido;
+        this.importe = importe;
+        this.divisa = divisa;
+        this.corresponsalPropio = corresponsalAjeno;
+        this.cuentaCorresponsalPropio = cuentaCorresponsalPropio;
+        this.corresponsalAjeno = corresponsalAjeno;
+        this.cuentaCorresponsalAjeno = cuentaCorresponsalAjeno;
+        this.tipoMensaje = tipoMensaje;
+        
+        
+    }    
     
     
     
@@ -65,11 +107,11 @@ public class Orden {
         this.BICEntidad = BICEntidad;
     }
 
-    public long getRefOrden() {
+    public String getRefOrden() {
         return refOrden;
     }
 
-    public void setRefOrden(long refOrden) {
+    public void setRefOrden(String refOrden) {
         this.refOrden = refOrden;
     }
 

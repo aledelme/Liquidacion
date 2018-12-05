@@ -26,7 +26,7 @@ public class ConnectionFactory {
             //agenda es el nombre de la BBDD
             //?createDatebaseIfNOtExist = true
             
-            String url = "jdbc:mysql://localhost:3306/orden";
+            String url = "jdbc:mysql://localhost:3306/mensajeria";
             String usuario = "root";
             String password = "root";
         
