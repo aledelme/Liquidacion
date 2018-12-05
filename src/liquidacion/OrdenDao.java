@@ -10,82 +10,52 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-<<<<<<< HEAD
 import org.apache.commons.lang3.StringUtils;
-=======
 import java.util.ArrayList;
->>>>>>> 9624dc29263c4faa40fd9be7347dca6f71975963
 
 /**
  *
  * @author juan.muro
  */
 public class OrdenDao {
-    
     private Connection connection;
     
     public OrdenDao(){
         this.connection = new liquidacion.ConnectionFactory().getConnection();        
     }
     
-<<<<<<< HEAD
-        public String refOrden (){
-            
-            String sql = "select max(ref_orden) as max from orden";
-            String resultado = "ORDEN";
-            
-            try{
-                
-            
+    public String refOrden (){
+        String sql = "select max(ref_orden) as max from orden";
+        String resultado = "ORDEN";
+        try{
             PreparedStatement stmt = this.connection.prepareStatement(sql);
-            
-            
-            
             ResultSet rs = stmt.executeQuery();
-            
-            while (rs.next()){
-                
+            while (rs.next()){                
                 String valor = rs.getString("max");
-                
-                if (valor==null){
-                    
-                    resultado = "ORDEN00000001";
-                            
-                    
-                }else{
-                    
+                if (valor==null){                    
+                    resultado = "ORDEN00000001";                     
+                }else{                    
                     Long secuencia = Long.parseLong(valor.replaceAll("\\D+", ""))+1;
                     resultado = resultado + StringUtils.leftPad(secuencia.toString(), 8, "0");
-                    
-                    
                 }
-                
             }
-            
-            
-            }catch(SQLException e){
-                
-                e.printStackTrace();
-                
-            }
-            
-            return resultado;
+        }catch(SQLException e){
+            e.printStackTrace();
         }
+        return resultado;
+    }
     
-        public void añadir (Orden orden){
-        
-        String sql = "insert into orden (bic_entidad, ref_orden, contrapartida, bic_contrapartida, sentido, importe, divisa, fecha_valor, corresponsal_propio, cuenta_corresponsal_propio, corresponsal_ajeno, cuenta_corresponsal_ajeno, tipo_mensaje, estado) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        
-=======
+//        public void añadir (Orden orden){
+//        
+//        String sql = "insert into orden (bic_entidad, ref_orden, contrapartida, bic_contrapartida, sentido, importe, divisa, fecha_valor, corresponsal_propio, cuenta_corresponsal_propio, corresponsal_ajeno, cuenta_corresponsal_ajeno, tipo_mensaje, estado) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+//      
     public void añadir (Orden orden){
         String sql = "insert into orden (contrapartida, bic_contrapartida, sentido, importe, divisa, fecha_valor, corresponsal_propio, cuenta_corresponsal_propio, corresponsal_ajeno, cuenta_corresponsal_ajeno, tipo_mensaje) values (?,?,?,?,?,?,?,?,?,?,?)";
->>>>>>> 9624dc29263c4faa40fd9be7347dca6f71975963
         try{
             //prepared statement para inserir la conexion
             PreparedStatement stmt = this.connection.prepareStatement(sql);
 
             //setear los valores
-<<<<<<< HEAD
             stmt.setString(1, orden.getBICEntidad());
             stmt.setString(2, orden.getRefOrden());
             stmt.setString(3, orden.getContrapartida());            
@@ -101,10 +71,7 @@ public class OrdenDao {
             stmt.setString(13, orden.getTipoMensaje());
             stmt.setString(14, "No Liberado");
             
-  
-            
-            
-=======
+
             stmt.setString(1, orden.getContrapartida());            
             stmt.setString(2, orden.getBICContrapartida());
             stmt.setString(3, orden.getSentido());
@@ -117,7 +84,6 @@ public class OrdenDao {
             stmt.setString(10, orden.getCuentaCorresponsalAjeno());
             stmt.setString(11, orden.getTipoMensaje());
 
->>>>>>> 9624dc29263c4faa40fd9be7347dca6f71975963
             //executar
             stmt.execute();
             stmt.close();
