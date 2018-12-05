@@ -3,7 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/alejandro.delmedico/Documents/NetBeansProjects/Liquidacion/src/liquidacion/Liquidacion.java</file>
+=======
+            <file>file:/C:/Users/juan.muro/Documents/NetBeansProjects/Liquidacion/src/liquidacion/OrdenDao.java</file>
+            <file>file:/C:/Users/juan.muro/Documents/NetBeansProjects/Liquidacion/src/liquidacion/Orden.java</file>
+            <file>file:/C:/Users/juan.muro/Documents/NetBeansProjects/Liquidacion/src/liquidacion/AltaOrden.java</file>
+>>>>>>> 17c1f94b5d5199a9b7e3d1f099d1ea9be6e1b861
         </group>
     </open-files>
 </project-private>
