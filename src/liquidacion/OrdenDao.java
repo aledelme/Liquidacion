@@ -6,7 +6,6 @@
 package liquidacion;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,7 +49,10 @@ public class OrdenDao {
 //        String sql = "insert into orden (bic_entidad, ref_orden, contrapartida, bic_contrapartida, sentido, importe, divisa, fecha_valor, corresponsal_propio, cuenta_corresponsal_propio, corresponsal_ajeno, cuenta_corresponsal_ajeno, tipo_mensaje, estado) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 //      
     public void añadir (Orden orden){
-        String sql = "insert into orden (contrapartida, bic_contrapartida, sentido, importe, divisa, fecha_valor, corresponsal_propio, cuenta_corresponsal_propio, corresponsal_ajeno, cuenta_corresponsal_ajeno, tipo_mensaje) values (?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into orden "
+                + "(contrapartida, bic_contrapartida, sentido, importe, divisa, fecha_valor, "
+                + "corresponsal_propio, cuenta_corresponsal_propio, corresponsal_ajeno, "
+                + "cuenta_corresponsal_ajeno, tipo_mensaje) values (?,?,?,?,?,?,?,?,?,?,?)";
         try{
             //prepared statement para inserir la conexion
             PreparedStatement stmt = this.connection.prepareStatement(sql);
@@ -93,30 +95,31 @@ public class OrdenDao {
         }
     }    
     
-    public ArrayList<Orden> listarOrdenes(Filtro filtro){
+    public ArrayList<Orden> listarOrdenes(Filtro filtro){ //Hecho por Ale
         ArrayList<Orden> ordenes = new ArrayList<>();
         String sql = "select * from orden " +
                     "where bic_entidad like '%"+filtro.getBICEntidad()+"%' " +
                     "and ref_orden like '%"+filtro.getRefOrden()+"%' " +
                     "and corresponsal_propio like '%"+filtro.getCorresponsalPropio()+"%' " +
                     "and estado like '%"+filtro.getEstado()+"%' " +
+                    "and sentido like '%"+filtro.getSentido()+"%' " +
                     "and divisa like '%"+filtro.getDivisa()+"%'";
-        if(filtro.getImporte() > 0)
-            sql += " and importe > 0" + filtro.getImporte();
-        if(filtro.getImporteMax()> 0)
-            sql += " and importe < 0" + filtro.getImporteMax();
+        if(filtro.getImporte() != 0)
+            sql += " and importe >= " + filtro.getImporte();
+        if(filtro.getImporteMax() != 0)
+            sql += " and importe <= " + filtro.getImporteMax();
         if(filtro.getFechaLiberacion() != null)
-            sql += " and fecha_liberacion > " + filtro.getFechaLiberacion();
+            sql += " and fecha_liberacion >= '" + filtro.getFechaLiberacion() + "'";
         if(filtro.getFechaLiberacionMax() != null)
-            sql += " and fecha_liberacion < " + filtro.getFechaLiberacionMax();
+            sql += " and fecha_liberacion <= '" + filtro.getFechaLiberacionMax() + "'";
         if(filtro.getFechaValor()!= null)
-            sql += " and fecha_valor > " + filtro.getFechaValor();
+            sql += " and fecha_valor >= '" + filtro.getFechaValor() + "'";
         if(filtro.getFechaValorMax()!= null)
-            sql += " and fecha_valor < " + filtro.getFechaValorMax();
+            sql += " and fecha_valor <= '" + filtro.getFechaValorMax() + "'";
         if(filtro.getFechaLiquidacion() != null)
-            sql += " and fecha_liquidacion > " + filtro.getFechaLiquidacion();
+            sql += " and fecha_liquidacion >= '" + filtro.getFechaLiquidacion() + "'";
         if(filtro.getFechaLiquidacionMax() != null)
-            sql += " and fecha_liquidacion < " + filtro.getFechaLiquidacionMax();
+            sql += " and fecha_liquidacion <= '" + filtro.getFechaLiquidacionMax() + "'";
         
         try{
             PreparedStatement stmt = this.connection.prepareStatement(sql);       

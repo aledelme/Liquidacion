@@ -5,9 +5,14 @@
  */
 package interfacesgraficas;
 
+import datechooser.beans.DateChooserCombo;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import liquidacion.AltaOrden;
 import liquidacion.Filtro;
@@ -30,7 +35,49 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
     
     public Filtro recogerFiltros(){
         Filtro filtro = new Filtro();
+        filtro.setBICEntidad(entidadTF.getText());
+        filtro.setRefOrden(refOrdenTF.getText());
+        filtro.setEstado(setDataFrom(estadoCB));
+        filtro.setCorresponsalPropio(corresponsalTF.getText());
+        filtro.setSentido(setDataFrom(sentidoCB));
+        filtro.setDivisa(setDataFrom(divisaCB));
+        
+        filtro.setImporte(setDoubleFrom(importeDesdeTF));
+        filtro.setImporteMax(setDoubleFrom(importeHastaTF));
+            
+        filtro.setFechaValor(setDateFrom(valorDesdeDC));
+        filtro.setFechaValorMax(setDateFrom(valorHastaDC));
+        filtro.setFechaLiberacion(setDateFrom(liberacionDesdeDC));
+        filtro.setFechaLiberacionMax(setDateFrom(liberacionHastaDC));
+        filtro.setFechaLiquidacion(setDateFrom(liquidacionDesdeDC));
+        filtro.setFechaLiquidacionMax(setDateFrom(liquidacionHastaDC));
+
         return filtro;
+    }
+    
+    public String setDataFrom(JComboBox comboBox){
+        String data = "";
+        if(comboBox.getSelectedIndex() != 0){
+            data = (String)comboBox.getSelectedItem();
+        }
+        return data;
+    }
+    
+    public double setDoubleFrom(JTextField textField){
+        double numero = 0;
+        try{
+            numero = Double.parseDouble(textField.getText());
+        }catch(Exception e){}
+        return numero;
+    }
+    
+    public Date setDateFrom(DateChooserCombo dateChooser){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        Date date = null;
+        try{
+            date = new Date(sdf.parse(dateChooser.getText()).getTime());
+        }catch(Exception e){}
+        return date;
     }
     
     public void listarConsultasOrden(){
@@ -51,11 +98,11 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
             ob[3] = o.getSentido();
             ob[4] = o.getImporte();
             ob[5] = o.getDivisa();
-            ob[6] = o.getFechaValor(); //Fecha entrada
-            ob[7] = o.getFechaValor();
-            ob[8] = o.getFechaValor(); //Fecha liquidacion
-//            ob[9] = o.getEstado();
-//            ob[10] = o.getTRN();
+//            ob[6] = new SimpleDateFormat("ddMMMyyyy").format(o.getFechaEntrada());
+            ob[7] = new SimpleDateFormat("ddMMMyyyy").format(o.getFechaValor());
+//            ob[8] = new SimpleDateFormat("ddMMMyyyy").format(o.getFechaLiquidacion());
+            ob[9] = o.getEstado();
+            ob[10] = o.getTRN();
             ob[11] = o.getCorresponsalPropio();
             ob[12] = o.getCuentaCorresponsalPropio();
             dtm.addRow(ob);
@@ -89,24 +136,26 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField13 = new javax.swing.JTextField();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        entidadTF = new javax.swing.JTextField();
+        refOrdenTF = new javax.swing.JTextField();
+        corresponsalTF = new javax.swing.JTextField();
+        divisaCB = new javax.swing.JComboBox<>();
+        importeDesdeTF = new javax.swing.JTextField();
+        importeHastaTF = new javax.swing.JTextField();
+        sentidoCB = new javax.swing.JComboBox<>();
+        estadoCB = new javax.swing.JComboBox<>();
         liberarButton = new javax.swing.JButton();
         liquidarButton = new javax.swing.JButton();
         consultaButton = new javax.swing.JButton();
         altaOrdenButton = new javax.swing.JButton();
-        dateChooserCombo1 = new datechooser.beans.DateChooserCombo();
-        dateChooserCombo2 = new datechooser.beans.DateChooserCombo();
-        dateChooserCombo3 = new datechooser.beans.DateChooserCombo();
-        dateChooserCombo4 = new datechooser.beans.DateChooserCombo();
-        dateChooserCombo5 = new datechooser.beans.DateChooserCombo();
-        dateChooserCombo6 = new datechooser.beans.DateChooserCombo();
+        liberacionHastaDC = new datechooser.beans.DateChooserCombo();
+        liberacionDesdeDC = new datechooser.beans.DateChooserCombo();
+        valorDesdeDC = new datechooser.beans.DateChooserCombo();
+        liquidacionDesdeDC = new datechooser.beans.DateChooserCombo();
+        valorHastaDC = new datechooser.beans.DateChooserCombo();
+        liquidacionHastaDC = new datechooser.beans.DateChooserCombo();
+        searchButton = new javax.swing.JButton();
+        quitarFiltrosButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -155,14 +204,11 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
 
         jLabel15.setText("F. liquidación hasta");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EUR", "USD", "CAD", "GBP" }));
-        jComboBox1.setSelectedIndex(-1);
+        divisaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "EUR", "USD", "CAD", "GBP" }));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cobro", "Pago" }));
-        jComboBox2.setSelectedIndex(-1);
+        sentidoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "Cobro", "Pago" }));
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No liberada", "Liberada", "ACK", "Incidencia", "Liquidada" }));
-        jComboBox3.setSelectedIndex(-1);
+        estadoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "No liberada", "Liberada", "ACK", "Incidencia", "Liquidada" }));
 
         liberarButton.setText("Liberar");
 
@@ -177,7 +223,7 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
             }
         });
 
-        dateChooserCombo1.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
+        liberacionHastaDC.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
             new datechooser.view.appearance.ViewAppearance("custom",
                 new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
                     new java.awt.Color(187, 187, 187),
@@ -218,8 +264,14 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
                 (datechooser.view.BackRenderer)null,
                 false,
                 true)));
+    liberacionHastaDC.setFormat(2);
+    try {
+        liberacionHastaDC.setDefaultPeriods(new datechooser.model.multiple.PeriodSet());
+    } catch (datechooser.model.exeptions.IncompatibleDataExeption e1) {
+        e1.printStackTrace();
+    }
 
-    dateChooserCombo2.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
+    liberacionDesdeDC.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
         new datechooser.view.appearance.ViewAppearance("custom",
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
                 new java.awt.Color(187, 187, 187),
@@ -260,92 +312,13 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
             (datechooser.view.BackRenderer)null,
             false,
             true)));
+try {
+    liberacionDesdeDC.setDefaultPeriods(new datechooser.model.multiple.PeriodSet());
+    } catch (datechooser.model.exeptions.IncompatibleDataExeption e1) {
+        e1.printStackTrace();
+    }
 
-dateChooserCombo3.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
-    new datechooser.view.appearance.ViewAppearance("custom",
-        new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-            new java.awt.Color(187, 187, 187),
-            new java.awt.Color(0, 0, 255),
-            false,
-            true,
-            new datechooser.view.appearance.swing.ButtonPainter()),
-        new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-            new java.awt.Color(187, 187, 187),
-            new java.awt.Color(0, 0, 255),
-            true,
-            true,
-            new datechooser.view.appearance.swing.ButtonPainter()),
-        new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-            new java.awt.Color(0, 0, 255),
-            new java.awt.Color(0, 0, 255),
-            false,
-            true,
-            new datechooser.view.appearance.swing.ButtonPainter()),
-        new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-            new java.awt.Color(128, 128, 128),
-            new java.awt.Color(0, 0, 255),
-            false,
-            true,
-            new datechooser.view.appearance.swing.LabelPainter()),
-        new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-            new java.awt.Color(187, 187, 187),
-            new java.awt.Color(0, 0, 255),
-            false,
-            true,
-            new datechooser.view.appearance.swing.LabelPainter()),
-        new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-            new java.awt.Color(187, 187, 187),
-            new java.awt.Color(255, 0, 0),
-            false,
-            false,
-            new datechooser.view.appearance.swing.ButtonPainter()),
-        (datechooser.view.BackRenderer)null,
-        false,
-        true)));
-
-dateChooserCombo4.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
-new datechooser.view.appearance.ViewAppearance("custom",
-    new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-        new java.awt.Color(187, 187, 187),
-        new java.awt.Color(0, 0, 255),
-        false,
-        true,
-        new datechooser.view.appearance.swing.ButtonPainter()),
-    new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-        new java.awt.Color(187, 187, 187),
-        new java.awt.Color(0, 0, 255),
-        true,
-        true,
-        new datechooser.view.appearance.swing.ButtonPainter()),
-    new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-        new java.awt.Color(0, 0, 255),
-        new java.awt.Color(0, 0, 255),
-        false,
-        true,
-        new datechooser.view.appearance.swing.ButtonPainter()),
-    new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-        new java.awt.Color(128, 128, 128),
-        new java.awt.Color(0, 0, 255),
-        false,
-        true,
-        new datechooser.view.appearance.swing.LabelPainter()),
-    new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-        new java.awt.Color(187, 187, 187),
-        new java.awt.Color(0, 0, 255),
-        false,
-        true,
-        new datechooser.view.appearance.swing.LabelPainter()),
-    new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-        new java.awt.Color(187, 187, 187),
-        new java.awt.Color(255, 0, 0),
-        false,
-        false,
-        new datechooser.view.appearance.swing.ButtonPainter()),
-    (datechooser.view.BackRenderer)null,
-    false,
-    true)));
-
-    dateChooserCombo5.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
+    valorDesdeDC.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
         new datechooser.view.appearance.ViewAppearance("custom",
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
                 new java.awt.Color(187, 187, 187),
@@ -386,109 +359,234 @@ new datechooser.view.appearance.ViewAppearance("custom",
             (datechooser.view.BackRenderer)null,
             false,
             true)));
+try {
+    valorDesdeDC.setDefaultPeriods(new datechooser.model.multiple.PeriodSet());
+    } catch (datechooser.model.exeptions.IncompatibleDataExeption e1) {
+        e1.printStackTrace();
+    }
 
-dateChooserCombo6.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
-    new datechooser.view.appearance.ViewAppearance("custom",
-        new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-            new java.awt.Color(187, 187, 187),
-            new java.awt.Color(0, 0, 255),
+    liquidacionDesdeDC.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
+        new datechooser.view.appearance.ViewAppearance("custom",
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
+                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 255),
+                false,
+                true,
+                new datechooser.view.appearance.swing.ButtonPainter()),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
+                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 255),
+                true,
+                true,
+                new datechooser.view.appearance.swing.ButtonPainter()),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
+                new java.awt.Color(0, 0, 255),
+                new java.awt.Color(0, 0, 255),
+                false,
+                true,
+                new datechooser.view.appearance.swing.ButtonPainter()),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
+                new java.awt.Color(128, 128, 128),
+                new java.awt.Color(0, 0, 255),
+                false,
+                true,
+                new datechooser.view.appearance.swing.LabelPainter()),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
+                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 255),
+                false,
+                true,
+                new datechooser.view.appearance.swing.LabelPainter()),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
+                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(255, 0, 0),
+                false,
+                false,
+                new datechooser.view.appearance.swing.ButtonPainter()),
+            (datechooser.view.BackRenderer)null,
             false,
-            true,
-            new datechooser.view.appearance.swing.ButtonPainter()),
-        new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-            new java.awt.Color(187, 187, 187),
-            new java.awt.Color(0, 0, 255),
-            true,
-            true,
-            new datechooser.view.appearance.swing.ButtonPainter()),
-        new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-            new java.awt.Color(0, 0, 255),
-            new java.awt.Color(0, 0, 255),
-            false,
-            true,
-            new datechooser.view.appearance.swing.ButtonPainter()),
-        new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-            new java.awt.Color(128, 128, 128),
-            new java.awt.Color(0, 0, 255),
-            false,
-            true,
-            new datechooser.view.appearance.swing.LabelPainter()),
-        new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-            new java.awt.Color(187, 187, 187),
-            new java.awt.Color(0, 0, 255),
-            false,
-            true,
-            new datechooser.view.appearance.swing.LabelPainter()),
-        new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-            new java.awt.Color(187, 187, 187),
-            new java.awt.Color(255, 0, 0),
-            false,
-            false,
-            new datechooser.view.appearance.swing.ButtonPainter()),
-        (datechooser.view.BackRenderer)null,
-        false,
-        true)));
+            true)));
+try {
+    liquidacionDesdeDC.setDefaultPeriods(new datechooser.model.multiple.PeriodSet());
+    } catch (datechooser.model.exeptions.IncompatibleDataExeption e1) {
+        e1.printStackTrace();
+    }
 
-javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-getContentPane().setLayout(layout);
-layout.setHorizontalGroup(
-layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-    .addContainerGap()
-    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 832, Short.MAX_VALUE)
-        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        .addGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+    valorHastaDC.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
+        new datechooser.view.appearance.ViewAppearance("custom",
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
+                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 255),
+                false,
+                true,
+                new datechooser.view.appearance.swing.ButtonPainter()),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
+                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 255),
+                true,
+                true,
+                new datechooser.view.appearance.swing.ButtonPainter()),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
+                new java.awt.Color(0, 0, 255),
+                new java.awt.Color(0, 0, 255),
+                false,
+                true,
+                new datechooser.view.appearance.swing.ButtonPainter()),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
+                new java.awt.Color(128, 128, 128),
+                new java.awt.Color(0, 0, 255),
+                false,
+                true,
+                new datechooser.view.appearance.swing.LabelPainter()),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
+                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 255),
+                false,
+                true,
+                new datechooser.view.appearance.swing.LabelPainter()),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
+                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(255, 0, 0),
+                false,
+                false,
+                new datechooser.view.appearance.swing.ButtonPainter()),
+            (datechooser.view.BackRenderer)null,
+            false,
+            true)));
+try {
+    valorHastaDC.setDefaultPeriods(new datechooser.model.multiple.PeriodSet());
+    } catch (datechooser.model.exeptions.IncompatibleDataExeption e1) {
+        e1.printStackTrace();
+    }
+
+    liquidacionHastaDC.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
+        new datechooser.view.appearance.ViewAppearance("custom",
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
+                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 255),
+                false,
+                true,
+                new datechooser.view.appearance.swing.ButtonPainter()),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
+                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 255),
+                true,
+                true,
+                new datechooser.view.appearance.swing.ButtonPainter()),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
+                new java.awt.Color(0, 0, 255),
+                new java.awt.Color(0, 0, 255),
+                false,
+                true,
+                new datechooser.view.appearance.swing.ButtonPainter()),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
+                new java.awt.Color(128, 128, 128),
+                new java.awt.Color(0, 0, 255),
+                false,
+                true,
+                new datechooser.view.appearance.swing.LabelPainter()),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
+                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 255),
+                false,
+                true,
+                new datechooser.view.appearance.swing.LabelPainter()),
+            new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
+                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(255, 0, 0),
+                false,
+                false,
+                new datechooser.view.appearance.swing.ButtonPainter()),
+            (datechooser.view.BackRenderer)null,
+            false,
+            true)));
+try {
+    liquidacionHastaDC.setDefaultPeriods(new datechooser.model.multiple.PeriodSet());
+    } catch (datechooser.model.exeptions.IncompatibleDataExeption e1) {
+        e1.printStackTrace();
+    }
+
+    searchButton.setText("Aplicar filtros");
+    searchButton.setMaximumSize(new java.awt.Dimension(144, 32));
+    searchButton.setMinimumSize(new java.awt.Dimension(144, 32));
+    searchButton.setPreferredSize(new java.awt.Dimension(144, 32));
+    searchButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            searchButtonActionPerformed(evt);
+        }
+    });
+
+    quitarFiltrosButton.setText("Quitar filtros");
+    quitarFiltrosButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            quitarFiltrosButtonActionPerformed(evt);
+        }
+    });
+
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+    getContentPane().setLayout(layout);
+    layout.setHorizontalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addContainerGap()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(dateChooserCombo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(dateChooserCombo3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(dateChooserCombo4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.Alignment.LEADING, 0, 130, Short.MAX_VALUE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.LEADING)))
-            .addGap(56, 56, 56)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLabel15)
-                .addComponent(jLabel14)
-                .addComponent(jLabel13)
-                .addComponent(jLabel12)
-                .addComponent(jLabel11)
-                .addComponent(jLabel10)
-                .addComponent(jLabel9))
-            .addGap(18, 18, 18)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1197, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(dateChooserCombo5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(liberacionDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(valorDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(liquidacionDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, 130, Short.MAX_VALUE)
-                            .addComponent(jTextField13, javax.swing.GroupLayout.Alignment.LEADING)))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(entidadTF, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(estadoCB, javax.swing.GroupLayout.Alignment.LEADING, 0, 130, Short.MAX_VALUE)
+                            .addComponent(sentidoCB, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(importeDesdeTF, javax.swing.GroupLayout.Alignment.LEADING)))
+                    .addGap(56, 56, 56)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(altaOrdenButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(consultaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(liberarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(liquidarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addComponent(jLabel14)
+                        .addComponent(jLabel13)
+                        .addComponent(jLabel12)
+                        .addComponent(jLabel11)
+                        .addComponent(jLabel10)
+                        .addComponent(jLabel9))
+                    .addGap(18, 18, 18)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(dateChooserCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(dateChooserCombo6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 0, Short.MAX_VALUE)))))
-    .addContainerGap())
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(liberacionHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(liquidacionHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(valorHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(refOrdenTF, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(corresponsalTF, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(divisaCB, javax.swing.GroupLayout.Alignment.LEADING, 0, 130, Short.MAX_VALUE)
+                                        .addComponent(importeHastaTF, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addGap(73, 73, 73)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                                        .addComponent(quitarFiltrosButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(altaOrdenButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                                .addComponent(consultaButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                                .addComponent(liberarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                                .addComponent(liquidarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))))))
+            .addContainerGap())
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -499,58 +597,60 @@ layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel2)
                 .addComponent(jLabel9)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(liberarButton))
+                .addComponent(entidadTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(refOrdenTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(liberarButton)
+                .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel3)
                 .addComponent(jLabel10)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(liquidarButton))
+                .addComponent(corresponsalTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(estadoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(liquidarButton)
+                .addComponent(quitarFiltrosButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel4)
                 .addComponent(jLabel11)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(divisaCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sentidoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(consultaButton))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel5)
                 .addComponent(jLabel12)
-                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(18, 18, 18)
+                .addComponent(importeDesdeTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(importeHastaTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(14, 14, 14)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                 .addGroup(layout.createSequentialGroup()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(jLabel13))
-                        .addComponent(dateChooserCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(liberacionHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(jLabel14)
                             .addComponent(altaOrdenButton))
-                        .addComponent(dateChooserCombo5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(valorHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
                             .addComponent(jLabel15))
-                        .addComponent(dateChooserCombo6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(liquidacionHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createSequentialGroup()
-                    .addComponent(dateChooserCombo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(liberacionDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(dateChooserCombo3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(valorDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(dateChooserCombo4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(liquidacionDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGap(22, 22, 22)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
             .addContainerGap())
     );
 
@@ -569,6 +669,30 @@ layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 listarConsultasOrden();
             }});
     }//GEN-LAST:event_altaOrdenButtonActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        // TODO add your handling code here:
+        listarConsultasOrden();
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void quitarFiltrosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitarFiltrosButtonActionPerformed
+        // TODO add your handling code here:
+        entidadTF.setText("");
+        refOrdenTF.setText("");
+        estadoCB.setSelectedIndex(0);
+        corresponsalTF.setText("");
+        sentidoCB.setSelectedIndex(0);
+        divisaCB.setSelectedIndex(0);
+        importeDesdeTF.setText("");
+        importeHastaTF.setText("");
+        
+        valorDesdeDC.setCurrent(null);
+        valorHastaDC.setCurrent(null);
+        liberacionDesdeDC.setCurrent(null);
+        liberacionHastaDC.setCurrent(null);
+        liquidacionDesdeDC.setCurrent(null);
+        liquidacionHastaDC.setCurrent(null);
+    }//GEN-LAST:event_quitarFiltrosButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -609,15 +733,12 @@ layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton altaOrdenButton;
     private javax.swing.JButton consultaButton;
-    private datechooser.beans.DateChooserCombo dateChooserCombo1;
-    private datechooser.beans.DateChooserCombo dateChooserCombo2;
-    private datechooser.beans.DateChooserCombo dateChooserCombo3;
-    private datechooser.beans.DateChooserCombo dateChooserCombo4;
-    private datechooser.beans.DateChooserCombo dateChooserCombo5;
-    private datechooser.beans.DateChooserCombo dateChooserCombo6;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JTextField corresponsalTF;
+    private javax.swing.JComboBox<String> divisaCB;
+    private javax.swing.JTextField entidadTF;
+    private javax.swing.JComboBox<String> estadoCB;
+    private javax.swing.JTextField importeDesdeTF;
+    private javax.swing.JTextField importeHastaTF;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -635,12 +756,17 @@ layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField6;
+    private datechooser.beans.DateChooserCombo liberacionDesdeDC;
+    private datechooser.beans.DateChooserCombo liberacionHastaDC;
     private javax.swing.JButton liberarButton;
+    private datechooser.beans.DateChooserCombo liquidacionDesdeDC;
+    private datechooser.beans.DateChooserCombo liquidacionHastaDC;
     private javax.swing.JButton liquidarButton;
+    private javax.swing.JButton quitarFiltrosButton;
+    private javax.swing.JTextField refOrdenTF;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JComboBox<String> sentidoCB;
+    private datechooser.beans.DateChooserCombo valorDesdeDC;
+    private datechooser.beans.DateChooserCombo valorHastaDC;
     // End of variables declaration//GEN-END:variables
 }
