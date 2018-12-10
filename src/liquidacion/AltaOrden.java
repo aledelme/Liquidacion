@@ -71,7 +71,7 @@ public class AltaOrden extends javax.swing.JFrame {
 
         jLabel4.setText("Importe(*)");
 
-        jLabel5.setText("Fecha Valor(*)");
+        jLabel5.setText("Fecha Valor[dd/MM/yyyy](*)");
 
         jLabel6.setText("Corresponsal Propio(*)");
 
@@ -83,11 +83,28 @@ public class AltaOrden extends javax.swing.JFrame {
 
         jLabel10.setText("Tipo Mensaje");
 
-        jLabel11.setText("(*)Campo Obligaorio");
+        jLabel11.setText("(*)Campo Obligatorio");
+
+        txtCorrespPropio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCorrespPropioActionPerformed(evt);
+            }
+        });
+        txtCorrespPropio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCorrespPropioKeyTyped(evt);
+            }
+        });
 
         txtCuentaCorrespPropio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtCuentaCorrespPropioKeyTyped(evt);
+            }
+        });
+
+        txtCorrespAjeno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCorrespAjenoKeyTyped(evt);
             }
         });
 
@@ -112,6 +129,12 @@ public class AltaOrden extends javax.swing.JFrame {
         });
 
         jLabel12.setText("Divisa(*)");
+
+        txtDivisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDivisaKeyTyped(evt);
+            }
+        });
 
         btnBorrar.setText("Borrar Campos");
         btnBorrar.addActionListener(new java.awt.event.ActionListener() {
@@ -234,17 +257,17 @@ public class AltaOrden extends javax.swing.JFrame {
                 
                                 JOptionPane.showMessageDialog(null, "El campo Divisa debe tener 3 caracteres");
                                 
-               }else if (txtCorrespPropio.getText().toString().length()!=11){
+               }else if (txtCorrespPropio.getText().toString().length()!=10){
                    
                                 JOptionPane.showMessageDialog(null, "El campo Corresponsal Propio debe tener 11 caracteres");                   
-               }else if (txtCuentaCorrespPropio.getText().toString().length() >1 && txtCuentaCorrespPropio.getText().toString().length() < 35  ){
+               }else if (txtCuentaCorrespPropio.getText().toString().length() >1 && txtCuentaCorrespPropio.getText().toString().length() < 34  ){
                    
                                 JOptionPane.showMessageDialog(null, "El campo Cuenta Corresponsal Propio debe tener 35 caracteres");                   
-               }else if (txtCorrespAjeno.getText().toString().length()!=11){
+               }else if (txtCorrespAjeno.getText().toString().length()!=10){
                    
                                 JOptionPane.showMessageDialog(null, "El campo Corresponsal Ajeno debe tener 11 caracteres");                   
                    
-               }else if (txtCuentaCorrespAjeno.getText().toString().length() >1 && txtCuentaCorrespPropio.getText().toString().length()<35){
+               }else if (txtCuentaCorrespAjeno.getText().toString().length() >1 && txtCuentaCorrespPropio.getText().toString().length()<34){
                    
                                 JOptionPane.showMessageDialog(null, "El campo Cuenta Corresponsal Ajeno debe tener 35 caracteres");                   
                    
@@ -275,6 +298,11 @@ public class AltaOrden extends javax.swing.JFrame {
         String contrapartida = txtContrapartida.getText();
         String BICContrapartida = txtBICContrapartida.getText();
         String sentido = cbSentido.getSelectedItem().toString();
+        if(cbSentido.getSelectedIndex()==0){
+            
+            sentido = null;            
+        }
+        
         double importe = 0;
         boolean fechaOk = true;
         SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
@@ -283,7 +311,7 @@ public class AltaOrden extends javax.swing.JFrame {
             java.util.Date date = f.parse(txtFechaValor.getText());
              sqlDate = new Date(date.getTime());
         } catch(ParseException e) {
-            //mensaje
+                   JOptionPane.showMessageDialog(null, "Formato de Fecha incorrecto.");
             fechaOk = false;
         }
         
@@ -299,6 +327,11 @@ public class AltaOrden extends javax.swing.JFrame {
         if(!(cbSentido.getSelectedItem().equals("Cobro"))){
 
                     tipoMensaje = cbTipoMensaje.getSelectedItem().toString();
+        }
+        
+        if (cbTipoMensaje.getSelectedIndex()==0){
+            
+            tipoMensaje = null;
         }
         
 
@@ -324,7 +357,7 @@ public class AltaOrden extends javax.swing.JFrame {
        
         txtContrapartida.setText("");
         txtBICContrapartida.setText("");
-        cbSentido.setSelectedIndex(1);
+        cbSentido.setSelectedIndex(0);
         txtImporte.setText("");
         txtFechaValor.setText("");
         txtDivisa.setText("");
@@ -332,7 +365,7 @@ public class AltaOrden extends javax.swing.JFrame {
         txtCuentaCorrespPropio.setText("");
         txtCorrespAjeno.setText("");
         txtCuentaCorrespAjeno.setText("");
-        cbTipoMensaje.setSelectedIndex(1);
+        cbTipoMensaje.setSelectedIndex(0);
         
     }//GEN-LAST:event_btnBorrarActionPerformed
 
@@ -349,18 +382,49 @@ public class AltaOrden extends javax.swing.JFrame {
     }//GEN-LAST:event_cbSentidoItemStateChanged
 
     private void txtCuentaCorrespPropioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCuentaCorrespPropioKeyTyped
-        if(txtCuentaCorrespPropio.getText().length()>35){
+        if(txtCuentaCorrespPropio.getText().length()>34){
             
             evt.consume();
         }
     }//GEN-LAST:event_txtCuentaCorrespPropioKeyTyped
 
     private void txtCuentaCorrespAjenoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCuentaCorrespAjenoKeyTyped
-        if(txtCuentaCorrespAjeno.getText().length()>35){
+        if(txtCuentaCorrespAjeno.getText().length()>34){
             
             evt.consume();
         }     
     }//GEN-LAST:event_txtCuentaCorrespAjenoKeyTyped
+
+    private void txtCorrespPropioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorrespPropioActionPerformed
+       
+    }//GEN-LAST:event_txtCorrespPropioActionPerformed
+
+    private void txtCorrespPropioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCorrespPropioKeyTyped
+    
+        if(txtCorrespPropio.getText().length()>10){
+            
+            evt.consume();
+            
+        }
+    }//GEN-LAST:event_txtCorrespPropioKeyTyped
+
+    private void txtCorrespAjenoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCorrespAjenoKeyTyped
+    
+        if(txtCorrespAjeno.getText().length()>10){
+            
+            evt.consume();
+            
+        }
+    }//GEN-LAST:event_txtCorrespAjenoKeyTyped
+
+    private void txtDivisaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDivisaKeyTyped
+    
+        if(txtDivisa.getText().length()>2){
+            
+            evt.consume();
+            
+        }
+    }//GEN-LAST:event_txtDivisaKeyTyped
 
     /**
      * @param args the command line arguments
