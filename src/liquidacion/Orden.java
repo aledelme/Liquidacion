@@ -8,49 +8,34 @@ package liquidacion;
 import java.sql.Date;
 
 
-
-
-
 /**
  *
  * @author alejandro.delmedico
  */
 public class Orden {
-   
     
-    private String BICEntidad = "BSCHESMMXXX";
-    
-    private String refOrden;
-    
-    private String contrapartida;
-    
-    private String BICContrapartida;
-    
-    private String sentido;
-    
-    private double importe;
-    
-    private Date fechaValor;
-       
-    private String divisa;
-    
-    private String corresponsalPropio;
-    
-    private String cuentaCorresponsalPropio;
-    
-    private String corresponsalAjeno;
-    
-    private String cuentaCorresponsalAjeno;
-    
+    private String BICEntidad = "BSCHESMMXXX";    
+    private String refOrden;    
+    private String contrapartida;    
+    private String BICContrapartida;    
+    private String sentido;    
+    private double importe;    
+    private Date fechaValor;       
+    private String divisa;    
+    private String corresponsalPropio;    
+    private String cuentaCorresponsalPropio;    
+    private String corresponsalAjeno;    
+    private String cuentaCorresponsalAjeno;    
     private String tipoMensaje;
     
- 
+    private String estado;
+    private Date fechaLiberacion;
+    private Date fechaLiquidacion;
     
-
-   
+    public Orden(){
+    }
     
-    public Orden (String BICEntidad,String refOrden, String contrapartida, String BICContrapartida, String sentido, double importe, Date fechaValor, String divisa, String corresponsalPropio, String cuentaCorresponsalPropio, String corresponsalAjeno, String cuentaCorrespAjeno, String tipoMensaje){
-        
+    public Orden (String BICEntidad,String refOrden, String contrapartida, String BICContrapartida, String sentido, double importe, Date fechaValor, String divisa, String corresponsalPropio, String cuentaCorresponsalPropio, String corresponsalAjeno, String cuentaCorrespAjeno, String tipoMensaje){       
         this.BICEntidad = BICEntidad;
         this.refOrden = refOrden;
         this.contrapartida = contrapartida;
@@ -64,12 +49,9 @@ public class Orden {
         this.corresponsalAjeno = corresponsalAjeno;
         this.cuentaCorresponsalAjeno = cuentaCorresponsalAjeno;
         this.tipoMensaje = tipoMensaje;
-        
-        
     }
     
     public Orden (String BICEntidad, String contrapartida, String BICContrapartida, String sentido, double importe, String divisa, String corresponsalPropio, String cuentaCorresponsalPropio, String corresponsalAjeno, String cuentaCorrespAjeno, String tipoMensaje){
-        
         this.BICEntidad = BICEntidad;
         this.contrapartida = contrapartida;
         this.BICContrapartida = BICContrapartida;
@@ -80,13 +62,8 @@ public class Orden {
         this.cuentaCorresponsalPropio = cuentaCorresponsalPropio;
         this.corresponsalAjeno = corresponsalAjeno;
         this.cuentaCorresponsalAjeno = cuentaCorresponsalAjeno;
-        this.tipoMensaje = tipoMensaje;
-        
-        
+        this.tipoMensaje = tipoMensaje; 
     }    
-    
-    
-    
     
 
     public String getDivisa() {
@@ -95,9 +72,7 @@ public class Orden {
 
     public void setDivisa(String divisa) {
         this.divisa = divisa;
-    }
-    
-    
+    }  
 
     public String getBICEntidad() {
         return BICEntidad;
@@ -193,16 +168,31 @@ public class Orden {
 
     public void setFechaValor(Date fechaValor) {
         this.fechaValor = fechaValor;
-    }
-    
-    
+    } 
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        System.out.println("Hola Muro");
+    public String getEstado() {
+        return estado;
     }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public Date getFechaLiberacion() {
+        return fechaLiberacion;
+    }
+
+    public void setFechaLiberacion(Date fechaLiberacion) {
+        this.fechaLiberacion = fechaLiberacion;
+    }
+
+    public Date getFechaLiquidacion() {
+        return fechaLiquidacion;
+    }
+
+    public void setFechaLiquidacion(Date fechaLiquidacion) {
+        this.fechaLiquidacion = fechaLiquidacion;
+    }
+    
     
 }
