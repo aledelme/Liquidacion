@@ -58,10 +58,11 @@ public class AltaOrden extends javax.swing.JFrame {
         txtDivisa = new javax.swing.JTextField();
         btnBorrar = new javax.swing.JButton();
         cbTipoMensaje = new javax.swing.JComboBox<>();
+        jLabel13 = new javax.swing.JLabel();
 
         jCheckBox1.setText("jCheckBox1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Contrapartida(*)");
 
@@ -71,7 +72,7 @@ public class AltaOrden extends javax.swing.JFrame {
 
         jLabel4.setText("Importe(*)");
 
-        jLabel5.setText("Fecha Valor(*)");
+        jLabel5.setText("Fecha Valor[dd/MM/yyyy](*)");
 
         jLabel6.setText("Corresponsal Propio(*)");
 
@@ -83,11 +84,28 @@ public class AltaOrden extends javax.swing.JFrame {
 
         jLabel10.setText("Tipo Mensaje");
 
-        jLabel11.setText("(*)Campo Obligaorio");
+        jLabel11.setText("(*)Campo Obligatorio");
+
+        txtCorrespPropio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCorrespPropioActionPerformed(evt);
+            }
+        });
+        txtCorrespPropio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCorrespPropioKeyTyped(evt);
+            }
+        });
 
         txtCuentaCorrespPropio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtCuentaCorrespPropioKeyTyped(evt);
+            }
+        });
+
+        txtCorrespAjeno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCorrespAjenoKeyTyped(evt);
             }
         });
 
@@ -113,6 +131,12 @@ public class AltaOrden extends javax.swing.JFrame {
 
         jLabel12.setText("Divisa(*)");
 
+        txtDivisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDivisaKeyTyped(evt);
+            }
+        });
+
         btnBorrar.setText("Borrar Campos");
         btnBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,6 +145,10 @@ public class AltaOrden extends javax.swing.JFrame {
         });
 
         cbTipoMensaje.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opcion", "MT103", "MT202" }));
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setText("Alta de Órdenes");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -160,13 +188,16 @@ public class AltaOrden extends javax.swing.JFrame {
                             .addComponent(txtCuentaCorrespAjeno)
                             .addComponent(cbSentido, 0, 339, Short.MAX_VALUE)
                             .addComponent(txtDivisa)
-                            .addComponent(cbTipoMensaje, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(cbTipoMensaje, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(67, 67, 67)
+                .addGap(29, 29, 29)
+                .addComponent(jLabel13)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtContrapartida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -190,7 +221,7 @@ public class AltaOrden extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtDivisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtCorrespPropio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -224,10 +255,13 @@ public class AltaOrden extends javax.swing.JFrame {
 
     
     public void Validar (){
+        
+    
         if(txtContrapartida.getText().equals("")||cbSentido.getSelectedIndex()==0||txtImporte.getText().equals("")||txtFechaValor.getText().equals("")||txtDivisa.getText().equals("")||txtCorrespPropio.getText().equals("")||txtCorrespAjeno.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios");
         }else{
             if(txtDivisa.getText().toString().length()!=3){
+
                 JOptionPane.showMessageDialog(null, "El campo Divisa debe tener 3 caracteres");          
             }else if (txtCorrespPropio.getText().toString().length()!=11){
                 JOptionPane.showMessageDialog(null, "El campo Corresponsal Propio debe tener 11 caracteres");                   
@@ -246,6 +280,7 @@ public class AltaOrden extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "El campo Importe debe tener valor numérico");                   
                 }                   
             }
+
         }
     }        
 
@@ -255,6 +290,11 @@ public class AltaOrden extends javax.swing.JFrame {
         String contrapartida = txtContrapartida.getText();
         String BICContrapartida = txtBICContrapartida.getText();
         String sentido = cbSentido.getSelectedItem().toString();
+        if(cbSentido.getSelectedIndex()==0){
+            
+            sentido = null;            
+        }
+        
         double importe = 0;
         boolean fechaOk = true;
         SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
@@ -263,7 +303,7 @@ public class AltaOrden extends javax.swing.JFrame {
             java.util.Date date = f.parse(txtFechaValor.getText());
              sqlDate = new Date(date.getTime());
         } catch(ParseException e) {
-            //mensaje
+                   JOptionPane.showMessageDialog(null, "Formato de Fecha incorrecto.");
             fechaOk = false;
         }
         
@@ -278,10 +318,18 @@ public class AltaOrden extends javax.swing.JFrame {
             if(!(cbSentido.getSelectedItem().equals("Cobro"))){
                 tipoMensaje = cbTipoMensaje.getSelectedItem().toString();
             }
+            
+        
+        if (cbTipoMensaje.getSelectedIndex()==0){
+            
+            tipoMensaje = null;
+        }
+        
 
             Validar();
             OrdenDao dao = new OrdenDao();        
             String refOrden = dao.refOrden();
+
 
             Orden orden = new Orden(BICEntidad, refOrden, contrapartida, BICContrapartida, sentido, importe, sqlDate,  divisa, correspPropio, cuentaCorrespPropio, correspAjeno, cuentaCorrespAjeno, tipoMensaje);
 
@@ -293,7 +341,7 @@ public class AltaOrden extends javax.swing.JFrame {
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         txtContrapartida.setText("");
         txtBICContrapartida.setText("");
-        cbSentido.setSelectedIndex(1);
+        cbSentido.setSelectedIndex(0);
         txtImporte.setText("");
         txtFechaValor.setText("");
         txtDivisa.setText("");
@@ -301,7 +349,7 @@ public class AltaOrden extends javax.swing.JFrame {
         txtCuentaCorrespPropio.setText("");
         txtCorrespAjeno.setText("");
         txtCuentaCorrespAjeno.setText("");
-        cbTipoMensaje.setSelectedIndex(1);
+        cbTipoMensaje.setSelectedIndex(0);
         
     }//GEN-LAST:event_btnBorrarActionPerformed
 
@@ -317,16 +365,51 @@ public class AltaOrden extends javax.swing.JFrame {
     }//GEN-LAST:event_cbSentidoItemStateChanged
 
     private void txtCuentaCorrespPropioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCuentaCorrespPropioKeyTyped
-        if(txtCuentaCorrespPropio.getText().length()>35){
+
+        if(txtCuentaCorrespPropio.getText().length()>34){
+
             evt.consume();
         }
     }//GEN-LAST:event_txtCuentaCorrespPropioKeyTyped
 
     private void txtCuentaCorrespAjenoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCuentaCorrespAjenoKeyTyped
-        if(txtCuentaCorrespAjeno.getText().length()>35){            
+
+        if(txtCuentaCorrespAjeno.getText().length()>34){
+
             evt.consume();
         }     
     }//GEN-LAST:event_txtCuentaCorrespAjenoKeyTyped
+
+    private void txtCorrespPropioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorrespPropioActionPerformed
+       
+    }//GEN-LAST:event_txtCorrespPropioActionPerformed
+
+    private void txtCorrespPropioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCorrespPropioKeyTyped
+    
+        if(txtCorrespPropio.getText().length()>10){
+            
+            evt.consume();
+            
+        }
+    }//GEN-LAST:event_txtCorrespPropioKeyTyped
+
+    private void txtCorrespAjenoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCorrespAjenoKeyTyped
+    
+        if(txtCorrespAjeno.getText().length()>10){
+            
+            evt.consume();
+            
+        }
+    }//GEN-LAST:event_txtCorrespAjenoKeyTyped
+
+    private void txtDivisaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDivisaKeyTyped
+    
+        if(txtDivisa.getText().length()>2){
+            
+            evt.consume();
+            
+        }
+    }//GEN-LAST:event_txtDivisaKeyTyped
 
     /**
      * @param args the command line arguments
@@ -372,6 +455,7 @@ public class AltaOrden extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
