@@ -6,6 +6,7 @@
 package liquidacion;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 
 /**
@@ -31,6 +32,8 @@ public class Orden {
     private String estado;
     private Date fechaLiberacion;
     private Date fechaLiquidacion;
+    private Date fechaEntrada;
+
     
     public Orden(){
     }
@@ -193,6 +196,14 @@ public class Orden {
     public void setFechaLiquidacion(Date fechaLiquidacion) {
         this.fechaLiquidacion = fechaLiquidacion;
     }
-    
+
+    public Date getFechaEntrada() {
+        return fechaEntrada;
+    }
+
+    public void setFechaEntrada(Date fechaEntrada) {
+        this.fechaEntrada = fechaEntrada;
+    }
+
     
 }
