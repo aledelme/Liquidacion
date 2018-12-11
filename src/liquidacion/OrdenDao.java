@@ -50,9 +50,9 @@ public class OrdenDao {
 //      
     public void añadir (Orden orden){
         String sql = "insert into orden "
-                + "(contrapartida, bic_contrapartida, sentido, importe, divisa, fecha_valor, "
+                + "(bic_entidad, ref_orden, contrapartida, bic_contrapartida, sentido, importe, divisa, fecha_valor, "
                 + "corresponsal_propio, cuenta_corresponsal_propio, corresponsal_ajeno, "
-                + "cuenta_corresponsal_ajeno, tipo_mensaje) values (?,?,?,?,?,?,?,?,?,?,?)";
+                + "cuenta_corresponsal_ajeno, tipo_mensaje, estado) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try{
             //prepared statement para inserir la conexion
             PreparedStatement stmt = this.connection.prepareStatement(sql);
@@ -72,7 +72,6 @@ public class OrdenDao {
             stmt.setString(12, orden.getCuentaCorresponsalAjeno());
             stmt.setString(13, orden.getTipoMensaje());
             stmt.setString(14, "No Liberado");
-            
 
             //executar
             stmt.execute();

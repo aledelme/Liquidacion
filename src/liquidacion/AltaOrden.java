@@ -49,7 +49,6 @@ public class AltaOrden extends javax.swing.JFrame {
         txtContrapartida = new javax.swing.JTextField();
         txtBICContrapartida = new javax.swing.JTextField();
         txtImporte = new javax.swing.JTextField();
-        txtFechaValor = new javax.swing.JTextField();
         txtCorrespPropio = new javax.swing.JTextField();
         txtCuentaCorrespPropio = new javax.swing.JTextField();
         txtCorrespAjeno = new javax.swing.JTextField();
@@ -61,6 +60,7 @@ public class AltaOrden extends javax.swing.JFrame {
         btnBorrar = new javax.swing.JButton();
         cbTipoMensaje = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
+        dateChooserPanel1 = new datechooser.beans.DateChooserPanel();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -74,7 +74,7 @@ public class AltaOrden extends javax.swing.JFrame {
 
         jLabel4.setText("Importe(*)");
 
-        jLabel5.setText("Fecha Valor[dd/MM/yyyy](*)");
+        jLabel5.setText("Fecha Valor(*)");
 
         jLabel6.setText("Corresponsal Propio(*)");
 
@@ -117,7 +117,7 @@ public class AltaOrden extends javax.swing.JFrame {
             }
         });
 
-        cbSentido.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opción", "Cobro", "Pago", " " }));
+        cbSentido.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opción", "Cobro", "Pago" }));
         cbSentido.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbSentidoItemStateChanged(evt);
@@ -184,13 +184,13 @@ public class AltaOrden extends javax.swing.JFrame {
                             .addComponent(txtContrapartida)
                             .addComponent(txtBICContrapartida)
                             .addComponent(txtImporte)
-                            .addComponent(txtFechaValor)
                             .addComponent(txtCuentaCorrespPropio)
                             .addComponent(txtCorrespAjeno)
                             .addComponent(txtCuentaCorrespAjeno)
                             .addComponent(cbSentido, 0, 339, Short.MAX_VALUE)
                             .addComponent(txtDivisa)
-                            .addComponent(cbTipoMensaje, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(cbTipoMensaje, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dateChooserPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
@@ -215,15 +215,18 @@ public class AltaOrden extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtFechaValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(dateChooserPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtDivisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtCorrespPropio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -249,17 +252,17 @@ public class AltaOrden extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtAlta)
                     .addComponent(btnBorrar))
-                .addGap(46, 46, 46))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     
-    public void Validar (){
+    public boolean validar (){
         
     
-        if(txtContrapartida.getText().equals("")||cbSentido.getSelectedIndex()==0||txtImporte.getText().equals("")||txtFechaValor.getText().equals("")||txtDivisa.getText().equals("")||txtCorrespPropio.getText().equals("")||txtCorrespAjeno.getText().equals("")){
+        if(txtContrapartida.getText().equals("")||cbSentido.getSelectedIndex()==0||txtImporte.getText().equals("")||dateChooserPanel1.getSelectedDate() == null||txtDivisa.getText().equals("")||txtCorrespPropio.getText().equals("")||txtCorrespAjeno.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios");
         }else{
             if(txtDivisa.getText().toString().length()!=3){
@@ -274,16 +277,16 @@ public class AltaOrden extends javax.swing.JFrame {
             }else if (txtCuentaCorrespAjeno.getText().toString().length() >1 && txtCuentaCorrespPropio.getText().toString().length()<35){
                 JOptionPane.showMessageDialog(null, "El campo Cuenta Corresponsal Ajeno debe tener 35 caracteres"); 
             }else{
-                double importe = 0;
                 try{
-                    importe = Double.parseDouble(txtImporte.getText());
+                    Double.parseDouble(txtImporte.getText());
+                    return true;
                 }catch(NumberFormatException e){
                     e.printStackTrace();
                     JOptionPane.showMessageDialog(null, "El campo Importe debe tener valor numérico");                   
-                }                   
+                } 
             }
-
         }
+        return false;
     }        
 
     
@@ -297,18 +300,15 @@ public class AltaOrden extends javax.swing.JFrame {
             sentido = null;            
         }
         
-        double importe = 0;
+        
         boolean fechaOk = true;
-        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
         Date sqlDate = null;
-        try {
-            java.util.Date date = f.parse(txtFechaValor.getText());
-             sqlDate = new Date(date.getTime());
-        } catch(ParseException e) {
-                   JOptionPane.showMessageDialog(null, "Formato de Fecha incorrecto.");
+        try{
+            sqlDate = new Date(dateChooserPanel1.getSelectedDate().getTimeInMillis());
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fecha");
             fechaOk = false;
         }
-        
         if(fechaOk){
             String divisa = txtDivisa.getText();
             String correspPropio = txtCorrespPropio.getText();
@@ -328,15 +328,17 @@ public class AltaOrden extends javax.swing.JFrame {
         }
         
 
-            Validar();
-            OrdenDao dao = new OrdenDao();        
-            String refOrden = dao.refOrden();
+            if(validar()){ //Hecho por Ale
+                OrdenDao dao = new OrdenDao();        
+                String refOrden = dao.refOrden();
+                double importe = Double.parseDouble(txtImporte.getText());
 
+                Orden orden = new Orden(BICEntidad, refOrden, contrapartida, BICContrapartida, sentido, importe, sqlDate,  divisa, correspPropio, cuentaCorrespPropio, correspAjeno, cuentaCorrespAjeno, tipoMensaje);
 
-            Orden orden = new Orden(BICEntidad, refOrden, contrapartida, BICContrapartida, sentido, importe, sqlDate,  divisa, correspPropio, cuentaCorrespPropio, correspAjeno, cuentaCorrespAjeno, tipoMensaje);
-
-            dao.añadir(orden);
-            JOptionPane.showMessageDialog(null, "La orden ha sido dada de alta correctamente");                   
+                dao.añadir(orden);
+                JOptionPane.showMessageDialog(null, "La orden ha sido dada de alta correctamente");  
+                dispose();
+            }
         }
     }//GEN-LAST:event_txtAltaActionPerformed
 
@@ -345,7 +347,7 @@ public class AltaOrden extends javax.swing.JFrame {
         txtBICContrapartida.setText("");
         cbSentido.setSelectedIndex(0);
         txtImporte.setText("");
-        txtFechaValor.setText("");
+        dateChooserPanel1.setCurrent(null);
         txtDivisa.setText("");
         txtCorrespPropio.setText("");
         txtCuentaCorrespPropio.setText("");
@@ -457,6 +459,7 @@ public class AltaOrden extends javax.swing.JFrame {
     private javax.swing.JButton btnBorrar;
     private javax.swing.JComboBox<String> cbSentido;
     private javax.swing.JComboBox<String> cbTipoMensaje;
+    private datechooser.beans.DateChooserPanel dateChooserPanel1;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -479,7 +482,6 @@ public class AltaOrden extends javax.swing.JFrame {
     private javax.swing.JTextField txtCuentaCorrespAjeno;
     private javax.swing.JTextField txtCuentaCorrespPropio;
     private javax.swing.JTextField txtDivisa;
-    private javax.swing.JTextField txtFechaValor;
     private javax.swing.JTextField txtImporte;
     // End of variables declaration//GEN-END:variables
 }

@@ -61,13 +61,13 @@
                           <Component id="txtContrapartida" max="32767" attributes="0"/>
                           <Component id="txtBICContrapartida" max="32767" attributes="0"/>
                           <Component id="txtImporte" max="32767" attributes="0"/>
-                          <Component id="txtFechaValor" alignment="0" max="32767" attributes="0"/>
                           <Component id="txtCuentaCorrespPropio" max="32767" attributes="0"/>
                           <Component id="txtCorrespAjeno" max="32767" attributes="0"/>
                           <Component id="txtCuentaCorrespAjeno" max="32767" attributes="0"/>
                           <Component id="cbSentido" alignment="0" pref="339" max="32767" attributes="0"/>
                           <Component id="txtDivisa" max="32767" attributes="0"/>
                           <Component id="cbTipoMensaje" alignment="0" max="32767" attributes="0"/>
+                          <Component id="dateChooserPanel1" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jLabel13" max="32767" attributes="0"/>
@@ -101,17 +101,22 @@
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtImporte" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtFechaValor" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="dateChooserPanel1" min="-2" pref="170" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="txtDivisa" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="16" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtCorrespPropio" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -143,7 +148,7 @@
                   <Component id="txtAlta" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnBorrar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+              <EmptySpace pref="26" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -171,7 +176,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Fecha Valor[dd/MM/yyyy](*)"/>
+        <Property name="text" type="java.lang.String" value="Fecha Valor(*)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
@@ -210,8 +215,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtImporte">
     </Component>
-    <Component class="javax.swing.JTextField" name="txtFechaValor">
-    </Component>
     <Component class="javax.swing.JTextField" name="txtCorrespPropio">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCorrespPropioActionPerformed"/>
@@ -236,11 +239,10 @@
     <Component class="javax.swing.JComboBox" name="cbSentido">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
+          <StringArray count="3">
             <StringItem index="0" value="Seleccione una opci&#xf3;n"/>
             <StringItem index="1" value="Cobro"/>
             <StringItem index="2" value="Pago"/>
-            <StringItem index="3" value=" "/>
           </StringArray>
         </Property>
       </Properties>
@@ -299,6 +301,8 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="Alta de &#xd3;rdenes"/>
       </Properties>
+    </Component>
+    <Component class="datechooser.beans.DateChooserPanel" name="dateChooserPanel1">
     </Component>
   </SubComponents>
 </Form>
