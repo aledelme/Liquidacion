@@ -14,7 +14,16 @@ public class Filtro extends Orden{
     private Date  fechaLiberacionMax;
     private Date fechaValorMax;
     private Date fechaLiquidacionMax;
+    private String TRNMensaje;
 
+    public String getTRNMensaje() {
+        return TRNMensaje;
+    }
+
+    public void setTRNMensaje(String TRNMensaje) {
+        this.TRNMensaje = TRNMensaje;
+    }
+    
     public double getImporteMax() {
         return importeMax;
     }
