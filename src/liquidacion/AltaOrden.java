@@ -117,7 +117,7 @@ public class AltaOrden extends javax.swing.JFrame {
             }
         });
 
-        cbSentido.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opción", "Cobro", "Pago", "Combo" }));
+        cbSentido.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opción", "Cobro", "Pago", " " }));
         cbSentido.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbSentidoItemStateChanged(evt);

@@ -33,7 +33,7 @@ public class Orden {
     private Date fechaLiberacion;
     private Date fechaLiquidacion;
     private Date fechaEntrada;
-    private String TRN;
+
     
     public Orden(){
     }
@@ -205,12 +205,5 @@ public class Orden {
         this.fechaEntrada = fechaEntrada;
     }
 
-    public String getTRN() {
-        return TRN;
-    }
-
-    public void setTRN(String TRN) {
-        this.TRN = TRN;
-    }
     
 }

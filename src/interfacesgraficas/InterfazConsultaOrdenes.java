@@ -102,7 +102,7 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
             ob[7] = new SimpleDateFormat("ddMMMyyyy").format(o.getFechaValor());
 //            ob[8] = new SimpleDateFormat("ddMMMyyyy").format(o.getFechaLiquidacion());
             ob[9] = o.getEstado();
-            ob[10] = o.getTRN();
+//            ob[10] = o.getTRN();
             ob[11] = o.getCorresponsalPropio();
             ob[12] = o.getCuentaCorresponsalPropio();
             dtm.addRow(ob);
