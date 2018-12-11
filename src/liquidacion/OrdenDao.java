@@ -72,18 +72,6 @@ public class OrdenDao {
             stmt.setString(14, "No Liberado");
             
 
-            stmt.setString(1, orden.getContrapartida());            
-            stmt.setString(2, orden.getBICContrapartida());
-            stmt.setString(3, orden.getSentido());
-            stmt.setDouble(4, orden.getImporte());
-            stmt.setString(5, orden.getDivisa());
-            stmt.setDate(6, orden.getFechaValor());
-            stmt.setString(7, orden.getCorresponsalPropio());
-            stmt.setString(8, orden.getCuentaCorresponsalPropio());
-            stmt.setString(9, orden.getCorresponsalAjeno());
-            stmt.setString(10, orden.getCuentaCorresponsalAjeno());
-            stmt.setString(11, orden.getTipoMensaje());
-
             //executar
             stmt.execute();
             stmt.close();
