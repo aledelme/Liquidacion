@@ -5,6 +5,7 @@
  */
 package liquidacion;
 
+import com.placeholder.PlaceHolder;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,6 +22,7 @@ public class AltaOrden extends javax.swing.JFrame {
      */
     public AltaOrden() {
         initComponents();
+        initPlaceHolders();
     }
 
     /**
@@ -444,6 +446,11 @@ public class AltaOrden extends javax.swing.JFrame {
                 new AltaOrden().setVisible(true);
             }
         });
+    }
+    
+    public void initPlaceHolders(){
+        PlaceHolder phBIC = new PlaceHolder(txtBICContrapartida, "BMSXMXMMXXX");
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
