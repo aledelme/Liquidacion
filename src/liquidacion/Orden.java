@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
  */
 public class Orden {
     
+    private long id;
     private String BICEntidad = "BSCHESMMXXX";    
     private String refOrden;    
     private String contrapartida;    
@@ -33,6 +34,8 @@ public class Orden {
     private Date fechaLiberacion;
     private Date fechaLiquidacion;
     private Date fechaEntrada;
+    
+    private String ultimoTRN;
 
     
     public Orden(){
@@ -67,8 +70,15 @@ public class Orden {
         this.cuentaCorresponsalAjeno = cuentaCorresponsalAjeno;
         this.tipoMensaje = tipoMensaje; 
     }    
-    
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+    
     public String getDivisa() {
         return divisa;
     }
@@ -205,5 +215,12 @@ public class Orden {
         this.fechaEntrada = fechaEntrada;
     }
 
-    
+    public String getUltimoTRN() {
+        return ultimoTRN;
+    }
+
+    public void setUltimoTRN(String ultimoTRN) {
+        this.ultimoTRN = ultimoTRN;
+    }
+
 }

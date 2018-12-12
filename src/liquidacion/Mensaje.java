@@ -47,8 +47,5 @@ public class Mensaje {
     public void setCruce(String cruce) {
         this.cruce = cruce;
     }
-    
-    
-    
-    
+   
 }

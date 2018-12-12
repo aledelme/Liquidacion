@@ -109,14 +109,14 @@ public class OrdenDao {
             sql += " and fecha_liquidacion <= '" + filtro.getFechaLiquidacionMax() + "'";
         
         try{
-            PreparedStatement stmt = this.connection.prepareStatement(sql);       
+            PreparedStatement stmt = this.connection.prepareStatement(sql);   
+            
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
                 Orden o = new Orden();
-                
-//                o.setId(rs.getString("id"));
+                o.setId(rs.getLong("id"));
                 o.setBICEntidad(rs.getString("bic_entidad"));
-//                o.setRefOrden(rs.getString("ref_orden"));
+                o.setRefOrden(rs.getString("ref_orden"));
                 o.setContrapartida(rs.getString("contrapartida"));
                 o.setBICContrapartida(rs.getString("bic_contrapartida"));
                 o.setSentido(rs.getString("sentido"));
@@ -128,8 +128,11 @@ public class OrdenDao {
                 o.setCorresponsalAjeno(rs.getString("corresponsal_ajeno"));
                 o.setCuentaCorresponsalAjeno(rs.getString("cuenta_corresponsal_ajeno"));
                 o.setTipoMensaje(rs.getString("tipo_mensaje"));
-//                o.setEstado(rs.getString("estado"));
- 
+                o.setEstado(rs.getString("estado"));
+                o.setFechaLiberacion(rs.getDate("fecha_liberacion"));
+                o.setFechaLiquidacion(rs.getDate("fecha_liquidacion"));
+                o.setFechaEntrada(rs.getDate("fecha_entrada"));
+                o.setUltimoTRN(getUltimoTRN(o.getId()));
                 ordenes.add(o);
             }
             rs.close();
@@ -138,6 +141,26 @@ public class OrdenDao {
             e.printStackTrace();
         }
         return ordenes;
+    }
+    
+    public String getUltimoTRN(long idOrden){
+        String trn = "";
+        String sql = "select trn from mensaje where id = \n" +
+                        "(select MAX(id) from mensaje \n" +
+                        "where idorden = ?)";
+        try{
+            PreparedStatement stmt = this.connection.prepareStatement(sql);   
+            stmt.setLong(1, idOrden);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                trn = rs.getString("trn");
+            }
+            rs.close();
+            stmt.close();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return trn;
     }
     
     public void closeConnetion(){

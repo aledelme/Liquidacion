@@ -44,7 +44,6 @@ public class MensajeDao {
             sql += " and fecha_valor <= '" + filtro.getFechaValorMax() + "'";
  
 
-        
         try{
             PreparedStatement stmt = this.connection.prepareStatement(sql);       
             ResultSet rs = stmt.executeQuery();
@@ -66,7 +65,6 @@ public class MensajeDao {
                 mensaje.setId(rs.getInt("idmensaje"));
                 
                 OrdenMensaje om = new OrdenMensaje(orden, mensaje);
-
  
                 ordenmensajes.add(om);
             }

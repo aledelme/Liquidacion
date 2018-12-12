@@ -84,27 +84,32 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
         OrdenDao dao = new OrdenDao();
         DefaultTableModel dtm = new DefaultTableModel();
         dtm.setColumnIdentifiers(new Object[]{"Tipo orden","Ref. orden","Contrapartida","Sentido",
-        "Importe","Divisa","Fecha entrada","Fecha valor","Fecha liquidación","Estado","TRN",
-        "Corresponsal propio","Cuenta corresponsal propio"});
+        "Importe","Divisa","Fecha entrada","Fecha valor","Fecha liquidación","Fecha liberacion",
+        "Estado","TRN","Corresponsal propio","Cuenta corresponsal propio"});
         
         ordenes = dao.listarOrdenes(recogerFiltros());
         jTable1.setModel(dtm);  
         
         for(Orden o : ordenes){
-            Object[] ob = new Object[13];
+            Object[] ob = new Object[14];
             ob[0] = o.getTipoMensaje(); //Tipo orden
             ob[1] = o.getRefOrden();
             ob[2] = o.getContrapartida();
             ob[3] = o.getSentido();
             ob[4] = o.getImporte();
             ob[5] = o.getDivisa();
-//            ob[6] = new SimpleDateFormat("ddMMMyyyy").format(o.getFechaEntrada());
+            ob[6] = new SimpleDateFormat("ddMMMyyyy").format(o.getFechaEntrada());
             ob[7] = new SimpleDateFormat("ddMMMyyyy").format(o.getFechaValor());
-//            ob[8] = new SimpleDateFormat("ddMMMyyyy").format(o.getFechaLiquidacion());
-            ob[9] = o.getEstado();
-//            ob[10] = o.getTRN();
-            ob[11] = o.getCorresponsalPropio();
-            ob[12] = o.getCuentaCorresponsalPropio();
+            try{
+                ob[8] = new SimpleDateFormat("ddMMMyyyy").format(o.getFechaLiquidacion());
+            }catch(Exception e){ob[8] = "";}
+            try{
+                ob[9] = new SimpleDateFormat("ddMMMyyyy").format(o.getFechaLiberacion());
+            }catch(Exception e){ob[9] = "";}
+            ob[10] = o.getEstado();
+            ob[11] = o.getUltimoTRN();
+            ob[12] = o.getCorresponsalPropio();
+            ob[13] = o.getCuentaCorresponsalPropio();
             dtm.addRow(ob);
         }
         dao.closeConnetion();
@@ -205,9 +210,9 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
         jLabel15.setText("F. liquidación hasta");
 
         entidadTF.setEditable(false);
-        entidadTF.setText("BSCHESMMXXX ");
+        entidadTF.setText("BSCHESMMXXX");
 
-        divisaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "EUR", "USD", "CAD", "GBP" }));
+        divisaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "EUR", "GBP", "USD", "CAD", "AUS", "JPY", "CHF", "SEK", "HKD", "NOK" }));
 
         sentidoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "Cobro", "Pago" }));
 
