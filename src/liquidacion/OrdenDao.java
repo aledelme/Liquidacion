@@ -6,6 +6,7 @@
 package liquidacion;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -43,16 +44,13 @@ public class OrdenDao {
         }
         return resultado;
     }
-    
-//        public void añadir (Orden orden){
-//        
-//        String sql = "insert into orden (bic_entidad, ref_orden, contrapartida, bic_contrapartida, sentido, importe, divisa, fecha_valor, corresponsal_propio, cuenta_corresponsal_propio, corresponsal_ajeno, cuenta_corresponsal_ajeno, tipo_mensaje, estado) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-//      
+     
     public void añadir (Orden orden){
         String sql = "insert into orden "
                 + "(bic_entidad, ref_orden, contrapartida, bic_contrapartida, sentido, importe, divisa, fecha_valor, "
                 + "corresponsal_propio, cuenta_corresponsal_propio, corresponsal_ajeno, "
-                + "cuenta_corresponsal_ajeno, tipo_mensaje, estado) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                + "cuenta_corresponsal_ajeno, tipo_mensaje, estado,fecha_liberacion,fecha_liquidacion)"
+                + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try{
             //prepared statement para inserir la conexion
             PreparedStatement stmt = this.connection.prepareStatement(sql);
@@ -72,6 +70,8 @@ public class OrdenDao {
             stmt.setString(12, orden.getCuentaCorresponsalAjeno());
             stmt.setString(13, orden.getTipoMensaje());
             stmt.setString(14, "No Liberado");
+            stmt.setDate(15, orden.getFechaValor());
+            stmt.setDate(16, orden.getFechaValor());
 
             //executar
             stmt.execute();
@@ -81,6 +81,26 @@ public class OrdenDao {
             throw new RuntimeException (e);
         }
     }    
+    
+    public void liquidarOrden(Orden orden){
+        String sql = "update orden set estado = ?, fecha_liberacion = CURRENT_TIMESTAMP, "
+                + "fecha_liquidacion = CURRENT_TIMESTAMP where id = ?";
+        try{
+            //prepared statement para inserir la conexion
+            PreparedStatement stmt = this.connection.prepareStatement(sql);
+
+            //setear los valores
+            stmt.setString(1, "Liquidada");
+            stmt.setLong(2, orden.getId());
+
+            //executar
+            stmt.execute();
+            stmt.close();
+
+        } catch (SQLException e){
+            throw new RuntimeException (e);
+        }
+    }
     
     public ArrayList<Orden> listarOrdenes(Filtro filtro){ //Hecho por Ale
         ArrayList<Orden> ordenes = new ArrayList<>();
@@ -144,7 +164,6 @@ public class OrdenDao {
     }
     
     public String getUltimoTRN(long idOrden){
-        String trn = "";
         String sql = "select trn from mensaje where id = \n" +
                         "(select MAX(id) from mensaje \n" +
                         "where idorden = ?)";
@@ -152,15 +171,16 @@ public class OrdenDao {
             PreparedStatement stmt = this.connection.prepareStatement(sql);   
             stmt.setLong(1, idOrden);
             ResultSet rs = stmt.executeQuery();
+            String trn = "";
             while(rs.next()){
                 trn = rs.getString("trn");
             }
             rs.close();
             stmt.close();
+            return trn;
         }catch (SQLException e){
-            e.printStackTrace();
+            throw new RuntimeException (e);
         }
-        return trn;
     }
     
     public void closeConnetion(){

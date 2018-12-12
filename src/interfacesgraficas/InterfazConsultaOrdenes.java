@@ -12,12 +12,14 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import liquidacion.AltaOrden;
 import liquidacion.Filtro;
 import liquidacion.Orden;
 import liquidacion.OrdenDao;
+import utiles.Utiles;
 
 /**
  *
@@ -37,48 +39,24 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
         Filtro filtro = new Filtro();
         filtro.setBICEntidad(entidadTF.getText());
         filtro.setRefOrden(refOrdenTF.getText());
-        filtro.setEstado(setDataFrom(estadoCB));
+        filtro.setEstado(Utiles.setDataFrom(estadoCB));
         filtro.setCorresponsalPropio(corresponsalTF.getText());
-        filtro.setSentido(setDataFrom(sentidoCB));
-        filtro.setDivisa(setDataFrom(divisaCB));
+        filtro.setSentido(Utiles.setDataFrom(sentidoCB));
+        filtro.setDivisa(Utiles.setDataFrom(divisaCB));
         
-        filtro.setImporte(setDoubleFrom(importeDesdeTF));
-        filtro.setImporteMax(setDoubleFrom(importeHastaTF));
+        filtro.setImporte(Utiles.setDoubleFrom(importeDesdeTF));
+        filtro.setImporteMax(Utiles.setDoubleFrom(importeHastaTF));
             
-        filtro.setFechaValor(setDateFrom(valorDesdeDC));
-        filtro.setFechaValorMax(setDateFrom(valorHastaDC));
-        filtro.setFechaLiberacion(setDateFrom(liberacionDesdeDC));
-        filtro.setFechaLiberacionMax(setDateFrom(liberacionHastaDC));
-        filtro.setFechaLiquidacion(setDateFrom(liquidacionDesdeDC));
-        filtro.setFechaLiquidacionMax(setDateFrom(liquidacionHastaDC));
+        filtro.setFechaValor(Utiles.setDateFrom(valorDesdeDC));
+        filtro.setFechaValorMax(Utiles.setDateFrom(valorHastaDC));
+        filtro.setFechaLiberacion(Utiles.setDateFrom(liberacionDesdeDC));
+        filtro.setFechaLiberacionMax(Utiles.setDateFrom(liberacionHastaDC));
+        filtro.setFechaLiquidacion(Utiles.setDateFrom(liquidacionDesdeDC));
+        filtro.setFechaLiquidacionMax(Utiles.setDateFrom(liquidacionHastaDC));
 
         return filtro;
     }
     
-    public String setDataFrom(JComboBox comboBox){
-        String data = "";
-        if(comboBox.getSelectedIndex() != 0){
-            data = (String)comboBox.getSelectedItem();
-        }
-        return data;
-    }
-    
-    public double setDoubleFrom(JTextField textField){
-        double numero = 0;
-        try{
-            numero = Double.parseDouble(textField.getText());
-        }catch(Exception e){}
-        return numero;
-    }
-    
-    public Date setDateFrom(DateChooserCombo dateChooser){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-        Date date = null;
-        try{
-            date = new Date(sdf.parse(dateChooser.getText()).getTime());
-        }catch(Exception e){}
-        return date;
-    }
     
     public void listarConsultasOrden(){
         OrdenDao dao = new OrdenDao();
@@ -221,8 +199,18 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
         liberarButton.setText("Liberar");
 
         liquidarButton.setText("Liquidar manual");
+        liquidarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                liquidarButtonActionPerformed(evt);
+            }
+        });
 
         consultaButton.setText("Consultar mensajes");
+        consultaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                consultaButtonActionPerformed(evt);
+            }
+        });
 
         altaOrdenButton.setText("Dar de alta orden");
         altaOrdenButton.addActionListener(new java.awt.event.ActionListener() {
@@ -702,6 +690,49 @@ try {
         liquidacionDesdeDC.setCurrent(null);
         liquidacionHastaDC.setCurrent(null);
     }//GEN-LAST:event_quitarFiltrosButtonActionPerformed
+
+    private void liquidarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_liquidarButtonActionPerformed
+        // TODO add your handling code here:
+        try{
+            int row = jTable1.getSelectedRow();
+            Orden orden = ordenes.get(row);
+            if(!orden.getEstado().equals("Liquidada")){
+                int selected = JOptionPane.showConfirmDialog(this,"Liquidar orden", "Liquidar",JOptionPane.YES_NO_OPTION);
+                if(selected == 0){
+                    OrdenDao dao = new OrdenDao();
+                    dao.liquidarOrden(orden);
+                    JOptionPane.showMessageDialog(this, "Orden liquidada correctamente");
+                }
+            } else
+                JOptionPane.showMessageDialog(this, "La orden seleccionada ya ha sido liquidada");
+        } catch (ArrayIndexOutOfBoundsException e){
+            JOptionPane.showMessageDialog(this, "Seleccione una orden");
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Error");
+        } finally {
+            listarConsultasOrden();
+        }
+    }//GEN-LAST:event_liquidarButtonActionPerformed
+
+    private void consultaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultaButtonActionPerformed
+        // TODO add your handling code here:
+        try{
+            int row = jTable1.getSelectedRow();
+            Orden orden = ordenes.get(row);
+            InterfazConsultaMensajes consultaMensaje = new InterfazConsultaMensajes(orden);
+            consultaMensaje.setLocationRelativeTo(this);
+            consultaMensaje.setVisible(true);
+
+    //        consultaMensaje.addWindowListener(new WindowAdapter() {
+    //           @Override
+    //            public void windowClosed(WindowEvent e){
+    //                listarConsultasOrden();
+    //            }});
+
+        } catch (ArrayIndexOutOfBoundsException e){
+            JOptionPane.showMessageDialog(this, "Seleccione una orden");
+        }
+    }//GEN-LAST:event_consultaButtonActionPerformed
 
     /**
      * @param args the command line arguments

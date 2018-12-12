@@ -15,24 +15,23 @@ import java.util.ArrayList;
  *
  * @author juan.muro
  */
-public class MensajeDao {
-    
+public class MensajeDao {    
     private Connection connection;
     
     public MensajeDao(){
-        this.connection = new liquidacion.ConnectionFactory().getConnection();
-        
+        this.connection = new liquidacion.ConnectionFactory().getConnection();        
     }
     
     public ArrayList<OrdenMensaje> listarMensajes(Filtro filtro){ //Hecho por alguien que no es Ale 
         ArrayList<OrdenMensaje> ordenmensajes = new ArrayList<>();
         String sql = "select m.*, o.* " +
-                    "from mensaje as m"+
-                    "inner join orden as o"+
-                    "on o.id = m.idorden"+
-                    "where o.tipo_mensaje like '%"+filtro.getTipoMensaje()+"%' " +
-                    "and o.corresponsal_propio like '%"+filtro.getCorresponsalPropio()+"%' "+
-                    "and m.trn like '%"+filtro.getTRNMensaje()+"%' ";                    
+                    "from mensaje as m "+
+                    "inner join orden as o "+
+                    "on o.id = m.idorden "+
+                    "where m.idorden = "+filtro.getId()+
+                    " and o.tipo_mensaje like '%"+filtro.getTipoMensaje()+"%' " +
+                    " and o.corresponsal_propio like '%"+filtro.getCorresponsalPropio()+"%' "+
+                    " and m.trn like '%"+filtro.getTRNMensaje()+"%' ";                    
 
         if(filtro.getImporte() != 0)
             sql += " and importe >= " + filtro.getImporte();
@@ -65,7 +64,6 @@ public class MensajeDao {
                 mensaje.setId(rs.getInt("idmensaje"));
                 
                 OrdenMensaje om = new OrdenMensaje(orden, mensaje);
- 
                 ordenmensajes.add(om);
             }
             rs.close();
@@ -74,9 +72,7 @@ public class MensajeDao {
             e.printStackTrace();
         }
         return ordenmensajes;
-    }    
-    
-    
+    }
     
     public void closeConnetion(){
         try{
@@ -86,6 +82,4 @@ public class MensajeDao {
             e.printStackTrace();
         }
     }    
-    
-    
 }

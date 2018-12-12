@@ -10,11 +10,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import liquidacion.Filtro;
-import liquidacion.Mensaje;
 import liquidacion.MensajeDao;
 import liquidacion.Orden;
-import liquidacion.OrdenDao;
 import liquidacion.OrdenMensaje;
+import utiles.Utiles;
 
 /**
  *
@@ -22,12 +21,16 @@ import liquidacion.OrdenMensaje;
  */
 public class InterfazConsultaMensajes extends javax.swing.JFrame {
     private ArrayList<OrdenMensaje> ordenmensajes;
+    private Orden orden;
 
     /**
      * Creates new form InterfazConsultaMensajes
+     * @param orden
      */
-    public InterfazConsultaMensajes() {
+    public InterfazConsultaMensajes(Orden orden) {
         initComponents();
+        this.orden = orden;      
+        listarConsultasMensajes();
     }
 
     /**
@@ -310,33 +313,30 @@ try {
     }// </editor-fold>//GEN-END:initComponents
 
     public Filtro recogerFiltros(){
-        
         Filtro filtro = new Filtro();
-        
-        filtro.setTipoMensaje(cbTipoMensaje.getSelectedItem().toString());
+        filtro.setId(orden.getId());
+        filtro.setTipoMensaje(Utiles.setDataFrom(cbTipoMensaje));
         filtro.setCorresponsalPropio(txtCorrespPropio.getText());
-        filtro.setImporte(Double.parseDouble(txtImpDesde.getText()));
-        filtro.setImporteMax(Double.parseDouble(txtImpHasta.getText()));
-        filtro.setTRNMensaje(txtTRN.getText());
-        filtro.setFechaValor(new Date (dateDesde.getSelectedDate().getTimeInMillis()));
-        filtro.setFechaValorMax(new Date (dateHasta.getSelectedDate().getTimeInMillis()));
-        
+        filtro.setImporte(Utiles.setDoubleFrom(txtImpDesde));
+        filtro.setImporteMax(Utiles.setDoubleFrom(txtImpHasta));
+        filtro.setTRNMensaje(txtTRN.getText()); 
+        filtro.setFechaValor(Utiles.setDateFrom(dateDesde));
+        filtro.setFechaValorMax(Utiles.setDateFrom(dateHasta));
 
         return filtro;
     }  
     
-    public void listarConsultasMensjas(){
-        
+    public void listarConsultasMensajes(){        
         MensajeDao dao = new MensajeDao();
         DefaultTableModel dtm = new DefaultTableModel();
-        dtm.setColumnIdentifiers(new Object[]{"Tipo Mensaje", "Estado Cruce", "Ref. Orden", "Contrapartida", "TRN", "Importe", "Divisa", "Fecha Valor", "Corresp. Propio"});
-        
+        dtm.setColumnIdentifiers(new Object[]{"Tipo Mensaje", "Estado Cruce", "Ref. Orden", 
+            "Contrapartida", "TRN", "Importe", "Divisa", "Fecha Valor", "Corresp. Propio"});
+                
         ordenmensajes = dao.listarMensajes(recogerFiltros());
         table.setModel(dtm);  
         
-        for(OrdenMensaje om : ordenmensajes){
-            
-            Object[] ob = new Object[8];
+        for(OrdenMensaje om : ordenmensajes){            
+            Object[] ob = new Object[9];
             ob[0] = om.getOrden().getTipoMensaje(); //Tipo orden
             ob[1] = om.getMensaje().getCruce();
             ob[2] = om.getOrden().getRefOrden();
@@ -354,7 +354,6 @@ try {
     
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
-        
         MensajeDao dao = new MensajeDao();
         Filtro filtro = recogerFiltros();
         dao.listarMensajes(filtro);
@@ -362,7 +361,6 @@ try {
 
     private void quitarFiltrosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitarFiltrosButtonActionPerformed
         // TODO add your handling code here:
-        
         txtCorrespPropio.setText("");
         txtTRN.setText("");
         txtImpDesde.setText("");
@@ -370,13 +368,10 @@ try {
         cbTipoMensaje.setSelectedIndex(0);
         dateDesde.setCurrent(null);
         dateHasta.setCurrent(null);
-
     }//GEN-LAST:event_quitarFiltrosButtonActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-
-        dispose();
-        
+        dispose();        
     }//GEN-LAST:event_btnVolverActionPerformed
 
     /**
@@ -409,7 +404,7 @@ try {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InterfazConsultaMensajes().setVisible(true);
+//                new InterfazConsultaMensajes().setVisible(true);
             }
         });
     }
