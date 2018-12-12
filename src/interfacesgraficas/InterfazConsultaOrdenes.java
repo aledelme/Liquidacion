@@ -726,12 +726,6 @@ try {
             consultaMensaje.setLocationRelativeTo(this);
             consultaMensaje.setVisible(true);
 
-    //        consultaMensaje.addWindowListener(new WindowAdapter() {
-    //           @Override
-    //            public void windowClosed(WindowEvent e){
-    //                listarConsultasOrden();
-    //            }});
-
         } catch (ArrayIndexOutOfBoundsException e){
             JOptionPane.showMessageDialog(this, "Seleccione una orden");
         }
