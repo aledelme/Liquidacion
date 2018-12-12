@@ -204,9 +204,6 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
 
         jLabel15.setText("F. liquidación hasta");
 
-        entidadTF.setEditable(false);
-        entidadTF.setText("BSCHESMMXXX ");
-
         divisaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "EUR", "USD", "CAD", "GBP" }));
 
         sentidoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "Cobro", "Pago" }));
@@ -229,13 +226,13 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
         liberacionHastaDC.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
             new datechooser.view.appearance.ViewAppearance("custom",
                 new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                    new java.awt.Color(187, 187, 187),
+                    new java.awt.Color(0, 0, 0),
                     new java.awt.Color(0, 0, 255),
                     false,
                     true,
                     new datechooser.view.appearance.swing.ButtonPainter()),
                 new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                    new java.awt.Color(187, 187, 187),
+                    new java.awt.Color(0, 0, 0),
                     new java.awt.Color(0, 0, 255),
                     true,
                     true,
@@ -253,13 +250,13 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
                     true,
                     new datechooser.view.appearance.swing.LabelPainter()),
                 new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                    new java.awt.Color(187, 187, 187),
+                    new java.awt.Color(0, 0, 0),
                     new java.awt.Color(0, 0, 255),
                     false,
                     true,
                     new datechooser.view.appearance.swing.LabelPainter()),
                 new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                    new java.awt.Color(187, 187, 187),
+                    new java.awt.Color(0, 0, 0),
                     new java.awt.Color(255, 0, 0),
                     false,
                     false,
@@ -277,13 +274,13 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
     liberacionDesdeDC.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
         new datechooser.view.appearance.ViewAppearance("custom",
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(0, 0, 255),
                 false,
                 true,
                 new datechooser.view.appearance.swing.ButtonPainter()),
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(0, 0, 255),
                 true,
                 true,
@@ -301,13 +298,13 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
                 true,
                 new datechooser.view.appearance.swing.LabelPainter()),
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(0, 0, 255),
                 false,
                 true,
                 new datechooser.view.appearance.swing.LabelPainter()),
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(255, 0, 0),
                 false,
                 false,
@@ -324,13 +321,13 @@ try {
     valorDesdeDC.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
         new datechooser.view.appearance.ViewAppearance("custom",
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(0, 0, 255),
                 false,
                 true,
                 new datechooser.view.appearance.swing.ButtonPainter()),
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(0, 0, 255),
                 true,
                 true,
@@ -348,13 +345,13 @@ try {
                 true,
                 new datechooser.view.appearance.swing.LabelPainter()),
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(0, 0, 255),
                 false,
                 true,
                 new datechooser.view.appearance.swing.LabelPainter()),
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(255, 0, 0),
                 false,
                 false,
@@ -371,13 +368,13 @@ try {
     liquidacionDesdeDC.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
         new datechooser.view.appearance.ViewAppearance("custom",
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(0, 0, 255),
                 false,
                 true,
                 new datechooser.view.appearance.swing.ButtonPainter()),
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(0, 0, 255),
                 true,
                 true,
@@ -395,13 +392,13 @@ try {
                 true,
                 new datechooser.view.appearance.swing.LabelPainter()),
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(0, 0, 255),
                 false,
                 true,
                 new datechooser.view.appearance.swing.LabelPainter()),
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(255, 0, 0),
                 false,
                 false,
@@ -418,13 +415,13 @@ try {
     valorHastaDC.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
         new datechooser.view.appearance.ViewAppearance("custom",
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(0, 0, 255),
                 false,
                 true,
                 new datechooser.view.appearance.swing.ButtonPainter()),
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(0, 0, 255),
                 true,
                 true,
@@ -442,13 +439,13 @@ try {
                 true,
                 new datechooser.view.appearance.swing.LabelPainter()),
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(0, 0, 255),
                 false,
                 true,
                 new datechooser.view.appearance.swing.LabelPainter()),
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(255, 0, 0),
                 false,
                 false,
@@ -465,13 +462,13 @@ try {
     liquidacionHastaDC.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
         new datechooser.view.appearance.ViewAppearance("custom",
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(0, 0, 255),
                 false,
                 true,
                 new datechooser.view.appearance.swing.ButtonPainter()),
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(0, 0, 255),
                 true,
                 true,
@@ -489,13 +486,13 @@ try {
                 true,
                 new datechooser.view.appearance.swing.LabelPainter()),
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(0, 0, 255),
                 false,
                 true,
                 new datechooser.view.appearance.swing.LabelPainter()),
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(187, 187, 187),
+                new java.awt.Color(0, 0, 0),
                 new java.awt.Color(255, 0, 0),
                 false,
                 false,
@@ -533,7 +530,7 @@ try {
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
             .addContainerGap()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1197, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1255, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createSequentialGroup()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -583,10 +580,10 @@ try {
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
                                         .addComponent(quitarFiltrosButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(altaOrdenButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                                .addComponent(consultaButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                                .addComponent(consultaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, Short.MAX_VALUE)
                                 .addComponent(liberarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
                                 .addComponent(liquidarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))))))
             .addContainerGap())
@@ -655,7 +652,7 @@ try {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(liquidacionDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGap(22, 22, 22)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
             .addContainerGap())
     );
 
@@ -682,6 +679,7 @@ try {
 
     private void quitarFiltrosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitarFiltrosButtonActionPerformed
         // TODO add your handling code here:
+        entidadTF.setText("");
         refOrdenTF.setText("");
         estadoCB.setSelectedIndex(0);
         corresponsalTF.setText("");
