@@ -7,8 +7,6 @@ package liquidacion;
 
 import com.placeholder.PlaceHolder;
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 
 /**
@@ -354,7 +352,6 @@ public class AltaOrden extends javax.swing.JFrame {
         txtCorrespAjeno.setText("");
         txtCuentaCorrespAjeno.setText("");
         cbTipoMensaje.setSelectedIndex(0);
-        
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void cbSentidoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbSentidoItemStateChanged
@@ -451,8 +448,14 @@ public class AltaOrden extends javax.swing.JFrame {
     }
     
     public void initPlaceHolders(){
-        PlaceHolder phBIC = new PlaceHolder(txtBICContrapartida, "BMSXMXMMXXX");
-        
+        new PlaceHolder(txtContrapartida, "Ej: BANCO SANTANDER MEXICO SA INST. DE BANCA MULTIPLE");
+        new PlaceHolder(txtBICContrapartida, "Ej: BMSXMXMMXXX");
+        new PlaceHolder(txtImporte,"Ej: 1000.00");
+        new PlaceHolder(txtDivisa, "Ej: EUR");
+        new PlaceHolder(txtCorrespAjeno, "Ej: CITIITMXXXX");
+        new PlaceHolder(txtCorrespPropio, "Ej: BBVAESMMXXX");
+        new PlaceHolder(txtCuentaCorrespAjeno, "Ej: ES345678901234567890123456789012345");
+        new PlaceHolder(txtCuentaCorrespPropio, "Ej: ES345678901234567890123456789012345");       
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
