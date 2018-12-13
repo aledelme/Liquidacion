@@ -111,13 +111,13 @@ public class InterfazConsultaMensajes extends javax.swing.JFrame {
         dateDesde.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
             new datechooser.view.appearance.ViewAppearance("custom",
                 new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                    new java.awt.Color(0, 0, 0),
+                    new java.awt.Color(187, 187, 187),
                     new java.awt.Color(0, 0, 255),
                     false,
                     true,
                     new datechooser.view.appearance.swing.ButtonPainter()),
                 new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                    new java.awt.Color(0, 0, 0),
+                    new java.awt.Color(187, 187, 187),
                     new java.awt.Color(0, 0, 255),
                     true,
                     true,
@@ -135,13 +135,13 @@ public class InterfazConsultaMensajes extends javax.swing.JFrame {
                     true,
                     new datechooser.view.appearance.swing.LabelPainter()),
                 new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                    new java.awt.Color(0, 0, 0),
+                    new java.awt.Color(187, 187, 187),
                     new java.awt.Color(0, 0, 255),
                     false,
                     true,
                     new datechooser.view.appearance.swing.LabelPainter()),
                 new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                    new java.awt.Color(0, 0, 0),
+                    new java.awt.Color(187, 187, 187),
                     new java.awt.Color(255, 0, 0),
                     false,
                     false,
@@ -160,13 +160,13 @@ public class InterfazConsultaMensajes extends javax.swing.JFrame {
     dateHasta.setCurrentView(new datechooser.view.appearance.AppearancesList("Light",
         new datechooser.view.appearance.ViewAppearance("custom",
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(0, 0, 0),
+                new java.awt.Color(187, 187, 187),
                 new java.awt.Color(0, 0, 255),
                 false,
                 true,
                 new datechooser.view.appearance.swing.ButtonPainter()),
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(0, 0, 0),
+                new java.awt.Color(187, 187, 187),
                 new java.awt.Color(0, 0, 255),
                 true,
                 true,
@@ -184,13 +184,13 @@ public class InterfazConsultaMensajes extends javax.swing.JFrame {
                 true,
                 new datechooser.view.appearance.swing.LabelPainter()),
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(0, 0, 0),
+                new java.awt.Color(187, 187, 187),
                 new java.awt.Color(0, 0, 255),
                 false,
                 true,
                 new datechooser.view.appearance.swing.LabelPainter()),
             new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 18),
-                new java.awt.Color(0, 0, 0),
+                new java.awt.Color(187, 187, 187),
                 new java.awt.Color(255, 0, 0),
                 false,
                 false,
@@ -305,8 +305,8 @@ try {
                 .addComponent(jLabel3)
                 .addComponent(txtTRN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(64, 64, 64)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
-            .addGap(104, 104, 104))
+            .addComponent(jScrollPane1)
+            .addContainerGap())
     );
 
     pack();
