@@ -212,12 +212,14 @@
     <Component class="javax.swing.JTextField" name="txtContrapartida">
     </Component>
     <Component class="javax.swing.JTextField" name="txtBICContrapartida">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtBICContrapartidaKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtImporte">
     </Component>
     <Component class="javax.swing.JTextField" name="txtCorrespPropio">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCorrespPropioActionPerformed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCorrespPropioKeyTyped"/>
       </Events>
     </Component>

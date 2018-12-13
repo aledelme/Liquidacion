@@ -86,11 +86,12 @@ public class AltaOrden extends javax.swing.JFrame {
 
         jLabel11.setText("(*)Campo Obligatorio");
 
-        txtCorrespPropio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCorrespPropioActionPerformed(evt);
+        txtBICContrapartida.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBICContrapartidaKeyTyped(evt);
             }
         });
+
         txtCorrespPropio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtCorrespPropioKeyTyped(evt);
@@ -352,65 +353,53 @@ public class AltaOrden extends javax.swing.JFrame {
         txtCorrespAjeno.setText("");
         txtCuentaCorrespAjeno.setText("");
         cbTipoMensaje.setSelectedIndex(0);
+        initPlaceHolders();
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void cbSentidoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbSentidoItemStateChanged
-        if (cbSentido.getSelectedItem().equals("Cobro")){
-            
+        if (cbSentido.getSelectedItem().equals("Cobro")){            
             cbTipoMensaje.setEnabled(false);
         }else{
-            cbTipoMensaje.setEnabled(true);            
-            
+            cbTipoMensaje.setEnabled(true);   
         }
-        
     }//GEN-LAST:event_cbSentidoItemStateChanged
 
     private void txtCuentaCorrespPropioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCuentaCorrespPropioKeyTyped
-
         if(txtCuentaCorrespPropio.getText().length()>34){
-
             evt.consume();
         }
     }//GEN-LAST:event_txtCuentaCorrespPropioKeyTyped
 
     private void txtCuentaCorrespAjenoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCuentaCorrespAjenoKeyTyped
-
         if(txtCuentaCorrespAjeno.getText().length()>34){
-
             evt.consume();
         }     
     }//GEN-LAST:event_txtCuentaCorrespAjenoKeyTyped
 
-    private void txtCorrespPropioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorrespPropioActionPerformed
-       
-    }//GEN-LAST:event_txtCorrespPropioActionPerformed
-
     private void txtCorrespPropioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCorrespPropioKeyTyped
-    
-        if(txtCorrespPropio.getText().length()>10){
-            
-            evt.consume();
-            
+        if(txtCorrespPropio.getText().length()>10){            
+            evt.consume();            
         }
     }//GEN-LAST:event_txtCorrespPropioKeyTyped
 
     private void txtCorrespAjenoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCorrespAjenoKeyTyped
-    
-        if(txtCorrespAjeno.getText().length()>10){
-            
-            evt.consume();
-            
+        if(txtCorrespAjeno.getText().length()>10){            
+            evt.consume();            
         }
     }//GEN-LAST:event_txtCorrespAjenoKeyTyped
 
     private void txtDivisaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDivisaKeyTyped
-    
-        if(txtDivisa.getText().length()>2){
-            
-            evt.consume();
-            
+        if(txtDivisa.getText().length()>2){            
+            evt.consume();            
         }
     }//GEN-LAST:event_txtDivisaKeyTyped
+
+    private void txtBICContrapartidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBICContrapartidaKeyTyped
+        // TODO add your handling code here:
+        if(txtBICContrapartida.getText().length()>10){            
+            evt.consume();            
+        }
+    }//GEN-LAST:event_txtBICContrapartidaKeyTyped
 
     /**
      * @param args the command line arguments

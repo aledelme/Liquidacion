@@ -50,7 +50,7 @@ public class OrdenDao {
                 + "(bic_entidad, ref_orden, contrapartida, bic_contrapartida, sentido, importe, divisa, fecha_valor, "
                 + "corresponsal_propio, cuenta_corresponsal_propio, corresponsal_ajeno, "
                 + "cuenta_corresponsal_ajeno, tipo_mensaje, estado,fecha_liberacion,fecha_liquidacion)"
-                + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try{
             //prepared statement para inserir la conexion
             PreparedStatement stmt = this.connection.prepareStatement(sql);
