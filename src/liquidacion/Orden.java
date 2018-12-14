@@ -50,10 +50,10 @@ public class Orden {
         this.importe = importe;
         this.fechaValor = fechaValor;
         this.divisa = divisa;
-        this.corresponsalPropio = corresponsalAjeno;
+        this.corresponsalPropio = corresponsalPropio;
         this.cuentaCorresponsalPropio = cuentaCorresponsalPropio;
         this.corresponsalAjeno = corresponsalAjeno;
-        this.cuentaCorresponsalAjeno = cuentaCorresponsalAjeno;
+        this.cuentaCorresponsalAjeno = cuentaCorrespAjeno;
         this.tipoMensaje = tipoMensaje;
     }
     
@@ -64,10 +64,10 @@ public class Orden {
         this.sentido = sentido;
         this.importe = importe;
         this.divisa = divisa;
-        this.corresponsalPropio = corresponsalAjeno;
+        this.corresponsalPropio = corresponsalPropio;
         this.cuentaCorresponsalPropio = cuentaCorresponsalPropio;
         this.corresponsalAjeno = corresponsalAjeno;
-        this.cuentaCorresponsalAjeno = cuentaCorresponsalAjeno;
+        this.cuentaCorresponsalAjeno = cuentaCorrespAjeno;
         this.tipoMensaje = tipoMensaje; 
     }    
 
