@@ -80,7 +80,55 @@ public class OrdenDao {
         } catch (SQLException e){
             throw new RuntimeException (e);
         }
-    }    
+    } 
+    
+    public void edit(Orden orden){
+        
+        String sql = "update orden set contrapartida=?, bic_contrapartida=?, sentido=?, importe=?, fecha_valor=?, divisa=?, corresponsal_propio=?, cuenta_corresponsal_propio=?, corresponsal_ajeno=?, cuenta_corresponsal_ajeno=?, tipo_mensaje=?, estado=? where id=?";
+        
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, orden.getContrapartida());
+            stmt.setString(2, orden.getBICContrapartida());
+            stmt.setString(3, orden.getSentido());
+            stmt.setDouble(4, orden.getImporte());
+            stmt.setDate(5, orden.getFechaValor());
+            stmt.setString(6, orden.getDivisa());
+            stmt.setString(7, orden.getCorresponsalPropio());
+            stmt.setString(8, orden.getCuentaCorresponsalPropio());
+            stmt.setString(9, orden.getCorresponsalAjeno());
+            stmt.setString(10, orden.getCuentaCorresponsalAjeno());
+            stmt.setString(11, orden.getTipoMensaje());
+            stmt.setString(12, "No Liberado");
+            stmt.setLong(13, orden.getId());
+            
+            stmt.execute();
+            stmt.close();
+            
+            
+        }catch(SQLException e){
+            
+            throw new RuntimeException(e);            
+           
+            
+        }
+    }
+   
+   
+       public void remover (Long id){
+        
+        try{
+            
+            PreparedStatement stmt = connection.prepareStatement("delete from alumno where id = ?");
+            stmt.setLong(1, id);
+            stmt.execute();
+            stmt.close();
+        }catch(SQLException e){
+            
+            throw new RuntimeException (e);
+        }        
+        
+    }
     
     public void liquidarOrden(Orden orden){
         String sql = "update orden set estado = ?, fecha_liberacion = CURRENT_TIMESTAMP, "

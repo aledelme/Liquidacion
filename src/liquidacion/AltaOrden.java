@@ -7,6 +7,7 @@ package liquidacion;
 
 import com.placeholder.PlaceHolder;
 import java.sql.Date;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,13 +15,30 @@ import javax.swing.JOptionPane;
  * @author juan.muro
  */
 public class AltaOrden extends javax.swing.JFrame {
-
+    private Orden orden = null;
     /**
      * Creates new form AltaOrden
      */
     public AltaOrden() {
         initComponents();
         initPlaceHolders();
+    }
+    
+    public AltaOrden(Orden orden){
+        initComponents();
+        this.orden = orden;
+        txtContrapartida.setText(orden.getContrapartida());
+        txtBICContrapartida.setText("");
+        cbSentido.setSelectedItem(orden.getSentido());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(orden.getFechaValor());
+        dateChooserPanel1.setCurrent(cal);
+        txtDivisa.setText(orden.getDivisa());
+        txtCorrespPropio.setText(orden.getCorresponsalPropio());
+        txtCuentaCorrespPropio.setText(orden.getCuentaCorresponsalPropio());
+        txtCorrespAjeno.setText(orden.getCuentaCorresponsalAjeno());
+        txtCuentaCorrespAjeno.setText(orden.getCuentaCorresponsalAjeno());
+        cbTipoMensaje.setSelectedItem(orden.getTipoMensaje());        
     }
 
     /**
@@ -257,39 +275,8 @@ public class AltaOrden extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    public boolean validar (){
+    public void alta(){
         
-    
-        if(txtContrapartida.getText().equals("")||cbSentido.getSelectedIndex()==0||txtImporte.getText().equals("")||dateChooserPanel1.getSelectedDate() == null||txtDivisa.getText().equals("")||txtCorrespPropio.getText().equals("")||txtCorrespAjeno.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios");
-        }else{
-            if(txtDivisa.getText().toString().length()!=3){
-
-                JOptionPane.showMessageDialog(null, "El campo Divisa debe tener 3 caracteres");          
-            }else if (txtCorrespPropio.getText().toString().length()!=11){
-                JOptionPane.showMessageDialog(null, "El campo Corresponsal Propio debe tener 11 caracteres");                   
-            }else if (txtCuentaCorrespPropio.getText().toString().length() >1 && txtCuentaCorrespPropio.getText().toString().length() < 35  ){
-                JOptionPane.showMessageDialog(null, "El campo Cuenta Corresponsal Propio debe tener 35 caracteres");                   
-            }else if (txtCorrespAjeno.getText().toString().length()!=11){
-                JOptionPane.showMessageDialog(null, "El campo Corresponsal Ajeno debe tener 11 caracteres");                   
-            }else if (txtCuentaCorrespAjeno.getText().toString().length() >1 && txtCuentaCorrespPropio.getText().toString().length()<35){
-                JOptionPane.showMessageDialog(null, "El campo Cuenta Corresponsal Ajeno debe tener 35 caracteres"); 
-            }else{
-                try{
-                    Double.parseDouble(txtImporte.getText());
-                    return true;
-                }catch(NumberFormatException e){
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "El campo Importe debe tener valor numérico");                   
-                } 
-            }
-        }
-        return false;
-    }        
-
-    
-    private void txtAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAltaActionPerformed
         String BICEntidad = "BSCHESMMXXX";
         String contrapartida = txtContrapartida.getText();
         String BICContrapartida = txtBICContrapartida.getText();
@@ -339,6 +326,102 @@ public class AltaOrden extends javax.swing.JFrame {
                 dispose();
             }
         }
+    }  
+    
+    public void editar(){
+        
+        String BICEntidad = "BSCHESMMXXX";
+        String contrapartida = txtContrapartida.getText();
+        String BICContrapartida = txtBICContrapartida.getText();
+        String sentido = cbSentido.getSelectedItem().toString();
+        if(cbSentido.getSelectedIndex()==0){
+            
+            sentido = null;            
+        }
+        
+        
+        boolean fechaOk = true;
+        Date sqlDate = null;
+        try{
+            sqlDate = new Date(dateChooserPanel1.getSelectedDate().getTimeInMillis());
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fecha");
+            fechaOk = false;
+        }
+        if(fechaOk){
+            String divisa = txtDivisa.getText();
+            String correspPropio = txtCorrespPropio.getText();
+            String cuentaCorrespPropio = txtCuentaCorrespPropio.getText();
+            String correspAjeno = txtCorrespAjeno.getText();
+            String cuentaCorrespAjeno = txtCuentaCorrespAjeno.getText();
+            String tipoMensaje=null;
+
+            if(!(cbSentido.getSelectedItem().equals("Cobro"))){
+                tipoMensaje = cbTipoMensaje.getSelectedItem().toString();
+            }
+            
+        
+        if (cbTipoMensaje.getSelectedIndex()==0){
+            
+            tipoMensaje = null;
+        }
+        
+
+            if(validar()){ //Hecho por Ale
+                OrdenDao dao = new OrdenDao();        
+                String refOrden = orden.getRefOrden();
+                double importe = Double.parseDouble(txtImporte.getText());
+
+                Orden orden = new Orden(BICEntidad, refOrden, contrapartida, BICContrapartida, sentido, importe, sqlDate,  divisa, correspPropio, cuentaCorrespPropio, correspAjeno, cuentaCorrespAjeno, tipoMensaje);
+
+                dao.edit(orden);
+                JOptionPane.showMessageDialog(null, "La orden ha sido dada de alta correctamente");  
+                dispose();
+            }
+        }        
+        
+        
+    }
+    
+    public boolean validar (){
+        
+    
+        if(txtContrapartida.getText().equals("")||cbSentido.getSelectedIndex()==0||txtImporte.getText().equals("")||dateChooserPanel1.getSelectedDate() == null||txtDivisa.getText().equals("")||txtCorrespPropio.getText().equals("")||txtCorrespAjeno.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios");
+        }else{
+            if(txtDivisa.getText().toString().length()!=3){
+
+                JOptionPane.showMessageDialog(null, "El campo Divisa debe tener 3 caracteres");          
+            }else if (txtCorrespPropio.getText().toString().length()!=11){
+                JOptionPane.showMessageDialog(null, "El campo Corresponsal Propio debe tener 11 caracteres");                   
+            }else if (txtCuentaCorrespPropio.getText().toString().length() >1 && txtCuentaCorrespPropio.getText().toString().length() < 35  ){
+                JOptionPane.showMessageDialog(null, "El campo Cuenta Corresponsal Propio debe tener 35 caracteres");                   
+            }else if (txtCorrespAjeno.getText().toString().length()!=11){
+                JOptionPane.showMessageDialog(null, "El campo Corresponsal Ajeno debe tener 11 caracteres");                   
+            }else if (txtCuentaCorrespAjeno.getText().toString().length() >1 && txtCuentaCorrespPropio.getText().toString().length()<35){
+                JOptionPane.showMessageDialog(null, "El campo Cuenta Corresponsal Ajeno debe tener 35 caracteres"); 
+            }else{
+                try{
+                    Double.parseDouble(txtImporte.getText());
+                    return true;
+                }catch(NumberFormatException e){
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "El campo Importe debe tener valor numérico");                   
+                } 
+            }
+        }
+        return false;
+    }        
+
+    
+    private void txtAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAltaActionPerformed
+        
+        if(orden == null){
+            alta();
+        }else{
+            editar();
+        }
+
     }//GEN-LAST:event_txtAltaActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed

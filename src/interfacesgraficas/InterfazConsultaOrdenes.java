@@ -139,6 +139,7 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
         liquidacionHastaDC = new datechooser.beans.DateChooserCombo();
         searchButton = new javax.swing.JButton();
         quitarFiltrosButton = new javax.swing.JButton();
+        txtEditar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -187,12 +188,10 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
 
         jLabel15.setText("F. liquidación hasta");
 
-
         entidadTF.setEditable(false);
         entidadTF.setText("BSCHESMMXXX");
 
         divisaCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "EUR", "GBP", "USD", "CAD", "AUS", "JPY", "CHF", "SEK", "HKD", "NOK" }));
-
 
         sentidoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "Cobro", "Pago" }));
 
@@ -521,6 +520,13 @@ try {
         }
     });
 
+    txtEditar.setText("Editar incidencia");
+    txtEditar.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            txtEditarActionPerformed(evt);
+        }
+    });
+
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
@@ -560,30 +566,26 @@ try {
                         .addComponent(jLabel9))
                     .addGap(18, 18, 18)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(valorHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(liberacionHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(liquidacionHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(0, 0, Short.MAX_VALUE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(valorHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(refOrdenTF, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(corresponsalTF, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(divisaCB, javax.swing.GroupLayout.Alignment.LEADING, 0, 130, Short.MAX_VALUE)
-                                        .addComponent(importeHastaTF, javax.swing.GroupLayout.Alignment.LEADING))
-                                    .addGap(73, 73, 73)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                                        .addComponent(quitarFiltrosButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(refOrdenTF, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(corresponsalTF, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(divisaCB, javax.swing.GroupLayout.Alignment.LEADING, 0, 130, Short.MAX_VALUE)
+                                .addComponent(importeHastaTF, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addGap(73, 73, 73)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(altaOrdenButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                                .addComponent(consultaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, Short.MAX_VALUE)
-                                .addComponent(liberarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                                .addComponent(liquidarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))))))
+                                .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                                .addComponent(quitarFiltrosButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(liberacionHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(liquidacionHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(altaOrdenButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                        .addComponent(consultaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, Short.MAX_VALUE)
+                        .addComponent(liberarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                        .addComponent(liquidarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                        .addComponent(txtEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addContainerGap())
     );
     layout.setVerticalGroup(
@@ -623,7 +625,14 @@ try {
                 .addComponent(importeDesdeTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(importeHastaTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(14, 14, 14)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(liberacionDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(valorDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                    .addComponent(liquidacionDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(22, 22, 22))
                 .addGroup(layout.createSequentialGroup()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -637,20 +646,14 @@ try {
                             .addComponent(jLabel14)
                             .addComponent(altaOrdenButton))
                         .addComponent(valorHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGap(16, 16, 16)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
                             .addComponent(jLabel15))
-                        .addComponent(liquidacionHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(liberacionDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(valorDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(liquidacionDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGap(22, 22, 22)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
+                        .addComponent(liquidacionHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtEditar, javax.swing.GroupLayout.Alignment.LEADING))))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
             .addContainerGap())
     );
 
@@ -731,6 +734,30 @@ try {
         }
     }//GEN-LAST:event_consultaButtonActionPerformed
 
+    private void txtEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEditarActionPerformed
+        // TODO add your handling code here:
+        
+        Integer row = jTable1.getSelectedRow();
+        
+        if(row == null){
+            JOptionPane.showMessageDialog(this, "Seleccione una orden");           
+            
+        }else{
+           String estado = jTable1.getModel().getValueAt(row, 10).toString();
+           
+           if(!(estado.equals("Incidencia"))){
+            JOptionPane.showMessageDialog(this, "La orden seleccionada no tiene ninguna incidencia");               
+           
+           }else{
+                Orden orden = ordenes.get(row);  
+                AltaOrden editar = new AltaOrden(orden);
+                           
+           }
+            
+        }
+        
+    }//GEN-LAST:event_txtEditarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -803,6 +830,7 @@ try {
     private javax.swing.JTextField refOrdenTF;
     private javax.swing.JButton searchButton;
     private javax.swing.JComboBox<String> sentidoCB;
+    private javax.swing.JButton txtEditar;
     private datechooser.beans.DateChooserCombo valorDesdeDC;
     private datechooser.beans.DateChooserCombo valorHastaDC;
     // End of variables declaration//GEN-END:variables
