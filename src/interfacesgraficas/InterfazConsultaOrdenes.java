@@ -26,16 +26,18 @@ import utiles.Utiles;
  * @author alejandro.delmedico
  */
 public class InterfazConsultaOrdenes extends javax.swing.JFrame {
+
     private ArrayList<Orden> ordenes;
+
     /**
      * Creates new form InterfazConsulta
      */
     public InterfazConsultaOrdenes() {
         initComponents();
-        listarConsultasOrden();  
+        listarConsultasOrden();
     }
-    
-    public Filtro recogerFiltros(){
+
+    public Filtro recogerFiltros() {
         Filtro filtro = new Filtro();
         filtro.setBICEntidad(entidadTF.getText());
         filtro.setRefOrden(refOrdenTF.getText());
@@ -43,10 +45,10 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
         filtro.setCorresponsalPropio(corresponsalTF.getText());
         filtro.setSentido(Utiles.setDataFrom(sentidoCB));
         filtro.setDivisa(Utiles.setDataFrom(divisaCB));
-        
+
         filtro.setImporte(Utiles.setDoubleFrom(importeDesdeTF));
         filtro.setImporteMax(Utiles.setDoubleFrom(importeHastaTF));
-            
+
         filtro.setFechaValor(Utiles.setDateFrom(valorDesdeDC));
         filtro.setFechaValorMax(Utiles.setDateFrom(valorHastaDC));
         filtro.setFechaLiberacion(Utiles.setDateFrom(liberacionDesdeDC));
@@ -56,19 +58,18 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
 
         return filtro;
     }
-    
-    
-    public void listarConsultasOrden(){
+
+    public void listarConsultasOrden() {
         OrdenDao dao = new OrdenDao();
         DefaultTableModel dtm = new DefaultTableModel();
-        dtm.setColumnIdentifiers(new Object[]{"Tipo orden","Ref. orden","Contrapartida","Sentido",
-        "Importe","Divisa","Fecha entrada","Fecha valor","Fecha liquidación","Fecha liberacion",
-        "Estado","TRN","Corresponsal propio","Cuenta corresponsal propio"});
-        
+        dtm.setColumnIdentifiers(new Object[]{"Tipo orden", "Ref. orden", "Contrapartida", "Sentido",
+            "Importe", "Divisa", "Fecha entrada", "Fecha valor", "Fecha liquidación", "Fecha liberacion",
+            "Estado", "TRN", "Corresponsal propio", "Cuenta corresponsal propio"});
+
         ordenes = dao.listarOrdenes(recogerFiltros());
-        jTable1.setModel(dtm);  
-        
-        for(Orden o : ordenes){
+        jTable1.setModel(dtm);
+
+        for (Orden o : ordenes) {
             Object[] ob = new Object[14];
             ob[0] = o.getTipoMensaje(); //Tipo orden
             ob[1] = o.getRefOrden();
@@ -78,12 +79,16 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
             ob[5] = o.getDivisa();
             ob[6] = new SimpleDateFormat("ddMMMyyyy").format(o.getFechaEntrada());
             ob[7] = new SimpleDateFormat("ddMMMyyyy").format(o.getFechaValor());
-            try{
+            try {
                 ob[8] = new SimpleDateFormat("ddMMMyyyy").format(o.getFechaLiquidacion());
-            }catch(Exception e){ob[8] = "";}
-            try{
+            } catch (Exception e) {
+                ob[8] = "";
+            }
+            try {
                 ob[9] = new SimpleDateFormat("ddMMMyyyy").format(o.getFechaLiberacion());
-            }catch(Exception e){ob[9] = "";}
+            } catch (Exception e) {
+                ob[9] = "";
+            }
             ob[10] = o.getEstado();
             ob[11] = o.getUltimoTRN();
             ob[12] = o.getCorresponsalPropio();
@@ -664,12 +669,13 @@ try {
         AltaOrden altaOrden = new AltaOrden();
         altaOrden.setLocationRelativeTo(this);
         altaOrden.setVisible(true);
-        
+
         altaOrden.addWindowListener(new WindowAdapter() {
-           @Override
-            public void windowClosed(WindowEvent e){
+            @Override
+            public void windowClosed(WindowEvent e) {
                 listarConsultasOrden();
-            }});
+            }
+        });
     }//GEN-LAST:event_altaOrdenButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
@@ -687,7 +693,7 @@ try {
         divisaCB.setSelectedIndex(0);
         importeDesdeTF.setText("");
         importeHastaTF.setText("");
-        
+
         valorDesdeDC.setCurrent(null);
         valorHastaDC.setCurrent(null);
         liberacionDesdeDC.setCurrent(null);
@@ -698,21 +704,22 @@ try {
 
     private void liquidarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_liquidarButtonActionPerformed
         // TODO add your handling code here:
-        try{
+        try {
             int row = jTable1.getSelectedRow();
             Orden orden = ordenes.get(row);
-            if(!orden.getEstado().equals("Liquidada")){
-                int selected = JOptionPane.showConfirmDialog(this,"Liquidar orden", "Liquidar",JOptionPane.YES_NO_OPTION);
-                if(selected == 0){
+            if (!orden.getEstado().equals("Liquidada")) {
+                int selected = JOptionPane.showConfirmDialog(this, "Liquidar orden", "Liquidar", JOptionPane.YES_NO_OPTION);
+                if (selected == 0) {
                     OrdenDao dao = new OrdenDao();
-                    dao.liquidarOrden(orden);
+                    dao.liquidacionManualOrden(orden);
                     JOptionPane.showMessageDialog(this, "Orden liquidada correctamente");
                 }
-            } else
+            } else {
                 JOptionPane.showMessageDialog(this, "La orden seleccionada ya ha sido liquidada");
-        } catch (ArrayIndexOutOfBoundsException e){
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(this, "Seleccione una orden");
-        } catch (Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error");
         } finally {
             listarConsultasOrden();
@@ -721,31 +728,34 @@ try {
 
     private void consultaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultaButtonActionPerformed
         // TODO add your handling code here:
-        try{
+        try {
             int row = jTable1.getSelectedRow();
             Orden orden = ordenes.get(row);
             InterfazConsultaMensajes consultaMensaje = new InterfazConsultaMensajes(orden);
             consultaMensaje.setLocationRelativeTo(this);
             consultaMensaje.setVisible(true);
 
-        } catch (ArrayIndexOutOfBoundsException e){
+        } catch (ArrayIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(this, "Seleccione una orden");
         }
     }//GEN-LAST:event_consultaButtonActionPerformed
 
     private void liberarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_liberarButtonActionPerformed
         // TODO add your handling code here:
-        try{
+        try {
             int row = jTable1.getSelectedRow();
             Orden orden = ordenes.get(row);
-            String estado = (String)jTable1.getModel().getValueAt(row,10);
-            if(estado.equals("No liberado") || estado.equals("Incidencia")){
-                
+            if (orden.getEstado().equals("No liberado") || orden.getEstado().equals("Incidencia")) {
+                OrdenDao dao = new OrdenDao();
+                dao.liberarOrden(orden);
+                if(orden.getSentido().equals("Pago"))
+                    ;//Generar swift
+                    
             } else {
                 JOptionPane.showMessageDialog(this, "La orden ya se ha liberado");
             }
 
-        } catch (ArrayIndexOutOfBoundsException e){
+        } catch (ArrayIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(this, "Seleccione una orden");
         }
     }//GEN-LAST:event_liberarButtonActionPerformed

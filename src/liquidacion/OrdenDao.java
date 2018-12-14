@@ -18,47 +18,48 @@ import java.util.ArrayList;
  * @author juan.muro
  */
 public class OrdenDao {
+
     private Connection connection;
-    
-    public OrdenDao(){
-        this.connection = new liquidacion.ConnectionFactory().getConnection();        
+
+    public OrdenDao() {
+        this.connection = new liquidacion.ConnectionFactory().getConnection();
     }
-    
-    public String refOrden (){
+
+    public String refOrden() {
         String sql = "select max(ref_orden) as max from orden";
         String resultado = "ORDEN";
-        try{
+        try {
             PreparedStatement stmt = this.connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
-            while (rs.next()){                
+            while (rs.next()) {
                 String valor = rs.getString("max");
-                if (valor==null){                    
-                    resultado = "ORDEN00000001";                     
-                }else{                    
-                    Long secuencia = Long.parseLong(valor.replaceAll("\\D+", ""))+1;
+                if (valor == null) {
+                    resultado = "ORDEN00000001";
+                } else {
+                    Long secuencia = Long.parseLong(valor.replaceAll("\\D+", "")) + 1;
                     resultado = resultado + StringUtils.leftPad(secuencia.toString(), 8, "0");
                 }
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return resultado;
     }
-     
-    public void añadir (Orden orden){
+
+    public void añadir(Orden orden) {
         String sql = "insert into orden "
                 + "(bic_entidad, ref_orden, contrapartida, bic_contrapartida, sentido, importe, divisa, fecha_valor, "
                 + "corresponsal_propio, cuenta_corresponsal_propio, corresponsal_ajeno, "
                 + "cuenta_corresponsal_ajeno, tipo_mensaje, estado,fecha_liberacion,fecha_liquidacion)"
                 + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        try{
+        try {
             //prepared statement para inserir la conexion
             PreparedStatement stmt = this.connection.prepareStatement(sql);
 
             //setear los valores
             stmt.setString(1, orden.getBICEntidad());
             stmt.setString(2, orden.getRefOrden());
-            stmt.setString(3, orden.getContrapartida());            
+            stmt.setString(3, orden.getContrapartida());
             stmt.setString(4, orden.getBICContrapartida());
             stmt.setString(5, orden.getSentido());
             stmt.setDouble(6, orden.getImporte());
@@ -77,15 +78,15 @@ public class OrdenDao {
             stmt.execute();
             stmt.close();
 
-        } catch (SQLException e){
-            throw new RuntimeException (e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-    }    
-    
-    public void liquidarOrden(Orden orden){
+    }
+
+    public void liquidacionManualOrden(Orden orden) {
         String sql = "update orden set estado = ?, fecha_liberacion = CURRENT_TIMESTAMP, "
                 + "fecha_liquidacion = CURRENT_TIMESTAMP where id = ?";
-        try{
+        try {
             //prepared statement para inserir la conexion
             PreparedStatement stmt = this.connection.prepareStatement(sql);
 
@@ -97,42 +98,66 @@ public class OrdenDao {
             stmt.execute();
             stmt.close();
 
-        } catch (SQLException e){
-            throw new RuntimeException (e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
     
-    public ArrayList<Orden> listarOrdenes(Filtro filtro){ //Hecho por Ale
+    public void liberarOrden(Orden orden) {
+        String sql = "update orden set estado = ?, fecha_liberacion = CURRENT_TIMESTAMP, "
+                + "where id = ?";
+        try {
+            //prepared statement para inserir la conexion
+            PreparedStatement stmt = this.connection.prepareStatement(sql);
+
+            //setear los valores
+            if (orden.getSentido().equals("Pago"))
+                stmt.setString(1, "Liberada");
+            else
+                stmt.setString(1, "ACK");
+           
+            stmt.setLong(2, orden.getId());
+
+            //executar
+            stmt.execute();
+            stmt.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ArrayList<Orden> listarOrdenes(Filtro filtro) { //Hecho por Ale
         ArrayList<Orden> ordenes = new ArrayList<>();
-        String sql = "select * from orden " +
-                    "where bic_entidad like '%"+filtro.getBICEntidad()+"%' " +
-                    "and ref_orden like '%"+filtro.getRefOrden()+"%' " +
-                    "and corresponsal_propio like '%"+filtro.getCorresponsalPropio()+"%' " +
-                    "and estado like '%"+filtro.getEstado()+"%' " +
-                    "and sentido like '%"+filtro.getSentido()+"%' " +
-                    "and divisa like '%"+filtro.getDivisa()+"%'";
-        if(filtro.getImporte() != 0)
+        String sql = "select * from orden "
+                + "where bic_entidad like '%" + filtro.getBICEntidad() + "%' "
+                + "and ref_orden like '%" + filtro.getRefOrden() + "%' "
+                + "and corresponsal_propio like '%" + filtro.getCorresponsalPropio() + "%' "
+                + "and estado like '%" + filtro.getEstado() + "%' "
+                + "and sentido like '%" + filtro.getSentido() + "%' "
+                + "and divisa like '%" + filtro.getDivisa() + "%'";
+        if (filtro.getImporte() != 0)
             sql += " and importe >= " + filtro.getImporte();
-        if(filtro.getImporteMax() != 0)
+        if (filtro.getImporteMax() != 0)
             sql += " and importe <= " + filtro.getImporteMax();
-        if(filtro.getFechaLiberacion() != null)
+        if (filtro.getFechaLiberacion() != null)
             sql += " and fecha_liberacion >= '" + filtro.getFechaLiberacion() + "'";
-        if(filtro.getFechaLiberacionMax() != null)
+        if (filtro.getFechaLiberacionMax() != null)
             sql += " and fecha_liberacion <= '" + filtro.getFechaLiberacionMax() + "'";
-        if(filtro.getFechaValor()!= null)
+        if (filtro.getFechaValor() != null)
             sql += " and fecha_valor >= '" + filtro.getFechaValor() + "'";
-        if(filtro.getFechaValorMax()!= null)
+        if (filtro.getFechaValorMax() != null)
             sql += " and fecha_valor <= '" + filtro.getFechaValorMax() + "'";
-        if(filtro.getFechaLiquidacion() != null)
+        if (filtro.getFechaLiquidacion() != null)
             sql += " and fecha_liquidacion >= '" + filtro.getFechaLiquidacion() + "'";
-        if(filtro.getFechaLiquidacionMax() != null)
+        if (filtro.getFechaLiquidacionMax() != null)
             sql += " and fecha_liquidacion <= '" + filtro.getFechaLiquidacionMax() + "'";
-        
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement(sql);   
-            
+
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(sql);
+
             ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 Orden o = new Orden();
                 o.setId(rs.getLong("id"));
                 o.setBICEntidad(rs.getString("bic_entidad"));
@@ -157,37 +182,38 @@ public class OrdenDao {
             }
             rs.close();
             stmt.close();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return ordenes;
     }
-    
-    public String getUltimoTRN(long idOrden){
-        String sql = "select trn from mensaje where id = \n" +
-                        "(select MAX(id) from mensaje \n" +
-                        "where idorden = ?)";
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement(sql);   
+
+    public String getUltimoTRN(long idOrden) {
+        String sql = "select trn from mensaje where id = \n"
+                + "(select MAX(id) from mensaje \n"
+                + "where idorden = ?)";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(sql);
             stmt.setLong(1, idOrden);
             ResultSet rs = stmt.executeQuery();
             String trn = "";
-            while(rs.next()){
+            while (rs.next()) {
                 trn = rs.getString("trn");
             }
             rs.close();
             stmt.close();
             return trn;
-        }catch (SQLException e){
-            throw new RuntimeException (e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
-    
-    public void closeConnetion(){
-        try{
-            if(!connection.isClosed())
+
+    public void closeConnetion() {
+        try {
+            if (!connection.isClosed()) {
                 connection.close();
-        }catch(Exception e){
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
