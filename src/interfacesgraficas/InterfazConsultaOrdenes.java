@@ -198,6 +198,11 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
         estadoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---", "No liberada", "Liberada", "ACK", "Incidencia", "Liquidada" }));
 
         liberarButton.setText("Liberar");
+        liberarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                liberarButtonActionPerformed(evt);
+            }
+        });
 
         liquidarButton.setText("Liquidar manual");
         liquidarButton.addActionListener(new java.awt.event.ActionListener() {
@@ -261,7 +266,6 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
                 (datechooser.view.BackRenderer)null,
                 false,
                 true)));
-    liberacionHastaDC.setFormat(2);
     try {
         liberacionHastaDC.setDefaultPeriods(new datechooser.model.multiple.PeriodSet());
     } catch (datechooser.model.exeptions.IncompatibleDataExeption e1) {
@@ -521,11 +525,6 @@ try {
     });
 
     txtEditar.setText("Editar incidencia");
-    txtEditar.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            txtEditarActionPerformed(evt);
-        }
-    });
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
@@ -734,29 +733,23 @@ try {
         }
     }//GEN-LAST:event_consultaButtonActionPerformed
 
-    private void txtEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEditarActionPerformed
+    private void liberarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_liberarButtonActionPerformed
         // TODO add your handling code here:
-        
-        Integer row = jTable1.getSelectedRow();
-        
-        if(row == null){
-            JOptionPane.showMessageDialog(this, "Seleccione una orden");           
-            
-        }else{
-           String estado = jTable1.getModel().getValueAt(row, 10).toString();
-           
-           if(!(estado.equals("Incidencia"))){
-            JOptionPane.showMessageDialog(this, "La orden seleccionada no tiene ninguna incidencia");               
-           
-           }else{
-                Orden orden = ordenes.get(row);  
-                AltaOrden editar = new AltaOrden(orden);
-                           
-           }
-            
+        try{
+            int row = jTable1.getSelectedRow();
+            Orden orden = ordenes.get(row);
+            String estado = (String)jTable1.getModel().getValueAt(row,10);
+            if(estado.equals("No liberado") || estado.equals("Incidencia")){
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "La orden ya se ha liberado");
+            }
+
+        } catch (ArrayIndexOutOfBoundsException e){
+            JOptionPane.showMessageDialog(this, "Seleccione una orden");
         }
-        
-    }//GEN-LAST:event_txtEditarActionPerformed
+    }//GEN-LAST:event_liberarButtonActionPerformed
+
 
     /**
      * @param args the command line arguments
