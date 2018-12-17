@@ -83,9 +83,11 @@ public class OrdenDao {
         }
     } 
     
-    public void edit(Orden orden){
-        
-        String sql = "update orden set contrapartida=?, bic_contrapartida=?, sentido=?, importe=?, fecha_valor=?, divisa=?, corresponsal_propio=?, cuenta_corresponsal_propio=?, corresponsal_ajeno=?, cuenta_corresponsal_ajeno=?, tipo_mensaje=?, estado=? where id=?";
+    public void edit(Orden orden){        
+        String sql = "update orden set contrapartida=?, bic_contrapartida=?, sentido=?, importe=?, "
+                + "fecha_valor=?, divisa=?, corresponsal_propio=?, cuenta_corresponsal_propio=?, "
+                + "corresponsal_ajeno=?, cuenta_corresponsal_ajeno=?, tipo_mensaje=?, estado=? "
+                + "where ref_orden=?";
         
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -101,23 +103,18 @@ public class OrdenDao {
             stmt.setString(10, orden.getCuentaCorresponsalAjeno());
             stmt.setString(11, orden.getTipoMensaje());
             stmt.setString(12, "No Liberado");
-            stmt.setLong(13, orden.getId());
+            stmt.setString(13, orden.getRefOrden());
             
             stmt.execute();
-            stmt.close();
+            stmt.close();            
             
-            
-        }catch(SQLException e){
-            
-            throw new RuntimeException(e);            
-           
-            
+        }catch(SQLException e){            
+            throw new RuntimeException(e);                       
         }
     }
    
    
-       public void remover (Long id){
-        
+       public void remover (Long id){        
         try{
             
             PreparedStatement stmt = connection.prepareStatement("delete from alumno where id = ?");
@@ -127,12 +124,31 @@ public class OrdenDao {
         }catch(SQLException e){
             
             throw new RuntimeException (e);
-        }        
-        
+        }                
     }
     
-    public void liquidarOrden(Orden orden){
+    public void liquidarManualOrden(Orden orden){
         String sql = "update orden set estado = ?, fecha_liberacion = CURRENT_TIMESTAMP, "
+                + "fecha_liquidacion = CURRENT_TIMESTAMP where id = ?";
+        try {
+            //prepared statement para inserir la conexion
+            PreparedStatement stmt = this.connection.prepareStatement(sql);
+
+            //setear los valores
+            stmt.setString(1, "Liquidada");
+            stmt.setLong(2, orden.getId());
+
+            //executar
+            stmt.execute();
+            stmt.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+     public void liquidarOrden(Orden orden){
+        String sql = "update orden set estado = ?, "
                 + "fecha_liquidacion = CURRENT_TIMESTAMP where id = ?";
         try {
             //prepared statement para inserir la conexion
@@ -174,6 +190,27 @@ public class OrdenDao {
             throw new RuntimeException(e);
         }
     }
+    
+    public void actualizarEstado(Orden orden, String estado) {
+        String sql = "update orden set estado = ? "
+                + "where id = ?";
+        try {
+            //prepared statement para inserir la conexion
+            PreparedStatement stmt = this.connection.prepareStatement(sql);
+
+            //setear los valores
+            stmt.setString(1, estado);
+            stmt.setLong(2, orden.getId());
+
+            //executar
+            stmt.execute();
+            stmt.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
 
     public ArrayList<Orden> listarOrdenes(Filtro filtro) { //Hecho por Ale
         ArrayList<Orden> ordenes = new ArrayList<>();
@@ -239,6 +276,26 @@ public class OrdenDao {
     public String getUltimoTRN(long idOrden) {
         String sql = "select trn from mensaje where id = \n"
                 + "(select MAX(id) from mensaje \n"
+                + "where idorden = ?)";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(sql);
+            stmt.setLong(1, idOrden);
+            ResultSet rs = stmt.executeQuery();
+            String trn = "";
+            while (rs.next()) {
+                trn = rs.getString("trn");
+            }
+            rs.close();
+            stmt.close();
+            return trn;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public String getPrimerTRN(long idOrden) {
+        String sql = "select trn from mensaje where id = \n"
+                + "(select MIN(id) from mensaje \n"
                 + "where idorden = ?)";
         try {
             PreparedStatement stmt = this.connection.prepareStatement(sql);

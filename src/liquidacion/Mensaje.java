@@ -19,6 +19,8 @@ public class Mensaje {
     private String TRN;
     private String swift;
     private String cruce;
+    private String tipoMensaje;
+    private String TRNrecibido;
 
     public Mensaje() {
     }
@@ -67,6 +69,22 @@ public class Mensaje {
 
     public void setCruce(String cruce) {
         this.cruce = cruce;
+    }
+
+    public String getTipoMensaje() {
+        return tipoMensaje;
+    }
+
+    public void setTipoMensaje(String tipoMensaje) {
+        this.tipoMensaje = tipoMensaje;
+    }
+
+    public String getTRNrecibido() {
+        return TRNrecibido;
+    }
+
+    public void setTRNrecibido(String TRNrecibido) {
+        this.TRNrecibido = TRNrecibido;
     }
     
     public String generarSwift() {
@@ -133,11 +151,21 @@ public class Mensaje {
                 //Campo fijo
                 swift += ":71A:/OUR-}";
                 break;
-
+        }
+        return swift;
+    }
+    
+    public String responderSwift(){
+        String MUR = new RandomString(16).nextString();
+        String swift = "";
+        
+        switch (tipoMensaje) {
             case "MT900":
-                swift = "{1:F01" + orden.getBICEntidad() + "4720546658}{2:O9001324180412" + orden.getCorresponsalPropio() + "71606974711804121324N}{3:{108:"+MUR+"}}{4:";
+                swift = "{1:F01" + orden.getBICEntidad() + "}{2:O900" + orden.getCorresponsalPropio() + "}{3:{108:"+MUR+"}}{4:";
                 //TRN mensaje recibidi
+                swift +=":20:"+TRNrecibido;
                 //TRN mensaje asociado
+                swift +=":21:"+TRN;
                 //Cuenta corresp propio
                 String ccp = orden.getCuentaCorresponsalPropio();
                 swift += ":25:" + ccp;
@@ -154,9 +182,11 @@ public class Mensaje {
                 break;
 
             case "MT910":
-                swift = "{1:F01" + orden.getBICEntidad() + "4720546658}{2:O9001324180412" + orden.getCorresponsalPropio() + "71606974711804121324N}{3:{108:"+MUR+"}}{4:";
+                swift = "{1:F01" + orden.getBICEntidad() + "}{2:O910" + orden.getCorresponsalPropio() +"}{3:{108:"+MUR+"}}{4:";
                 //TRN mensaje recibidi
+                swift +=":20:"+TRNrecibido;
                 //TRN mensaje asociado
+                swift +=":21:"+TRN;
                 //Cuenta corresp propio
                 String ccp910 = orden.getCuentaCorresponsalPropio();
                 swift += ":25:" + ccp910;
@@ -171,8 +201,14 @@ public class Mensaje {
                 //Campo fijo
                 swift += "-}{5:{CHK:BE1AF6A16912}}";
                 break;
+            case "ACK":
+                swift = "{1:F21"+orden.getBICEntidad()+"}{4:{177:1310311338}{451:1}{405:Y01}{108:"+MUR+"}}";
+                break;
+            case "NACK":
+                swift = "{1:F21"+orden.getBICEntidad()+"}{4:{177:1311221640}{451:0}{108:"+MUR+"}}";
+                break;
         }
         return swift;
-    }
+    } 
    
 }

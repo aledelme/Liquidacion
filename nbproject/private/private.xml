@@ -5,8 +5,8 @@
         <group>
             <file>file:/C:/Users/alejandro.delmedico/Documents/NetBeansProjects/Liquidacion/src/liquidacion/MensajeDao.java</file>
             <file>file:/C:/Users/alejandro.delmedico/Documents/NetBeansProjects/Liquidacion/src/interfacesgraficas/InterfazConsultaMensajes.java</file>
-            <file>file:/C:/Users/alejandro.delmedico/Documents/NetBeansProjects/Liquidacion/src/liquidacion/Orden.java</file>
             <file>file:/C:/Users/alejandro.delmedico/Documents/NetBeansProjects/Liquidacion/src/liquidacion/OrdenDao.java</file>
+            <file>file:/C:/Users/alejandro.delmedico/Documents/NetBeansProjects/Liquidacion/src/liquidacion/Mensaje.java</file>
             <file>file:/C:/Users/alejandro.delmedico/Documents/NetBeansProjects/Liquidacion/src/interfacesgraficas/InterfazConsultaOrdenes.java</file>
             <file>file:/C:/Users/alejandro.delmedico/Documents/NetBeansProjects/Liquidacion/src/liquidacion/AltaOrden.java</file>
         </group>

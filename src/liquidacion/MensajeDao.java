@@ -27,7 +27,7 @@ public class MensajeDao {
     
     public void añadir(Mensaje mensaje) {
         String sql = "insert into mensaje "
-                + "(trn,swift,cruce,idorden) values (?,?,?,?)";
+                + "(trn,swift,cruce,idorden,tipo_mensaje) values (?,?,?,?,?)";
         try {
             //prepared statement para inserir la conexion
             PreparedStatement stmt = this.connection.prepareStatement(sql);
@@ -37,6 +37,7 @@ public class MensajeDao {
             stmt.setString(2, mensaje.getSwift());
             stmt.setString(3, mensaje.getCruce());
             stmt.setLong(4, mensaje.getOrden().getId());
+            stmt.setString(5,mensaje.getTipoMensaje());
 
             //executar
             stmt.execute();
@@ -54,10 +55,11 @@ public class MensajeDao {
                 + "inner join orden as o "
                 + "on o.id = m.idorden "
                 + "where m.idorden = " + filtro.getId()
-                + " and o.tipo_mensaje like '%" + filtro.getTipoMensaje() + "%' "
+                + " and m.tipo_mensaje like '%" + filtro.getTipoMensaje() + "%' "
                 + " and o.corresponsal_propio like '%" + filtro.getCorresponsalPropio() + "%' "
-                + " and m.trn like '%" + filtro.getTRNMensaje() + "%' ";
-
+                + " and m.trn like '%" + filtro.getTRNMensaje() + "%' "
+                + " and m.tipo_mensaje NOT IN ('ACK','NACK') ";
+                
         if (filtro.getImporte() != 0)
             sql += " and importe >= " + filtro.getImporte();
         if (filtro.getImporteMax() != 0)

@@ -37,6 +37,11 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
     public InterfazConsultaOrdenes() {
         initComponents();
         listarConsultasOrden();
+        liberarButton.setEnabled(false);
+        liquidarButton.setEnabled(false);
+        consultaButton.setEnabled(false);
+        editButton.setEnabled(false);
+        responderButton.setEnabled(false);
     }
 
     public Filtro recogerFiltros() {
@@ -98,6 +103,13 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
             dtm.addRow(ob);
         }
         dao.closeConnetion();
+        
+        liberarButton.setEnabled(false);
+        liquidarButton.setEnabled(false);
+        consultaButton.setEnabled(false);
+        editButton.setEnabled(false);
+        responderButton.setEnabled(false);
+        
     }
 
     /**
@@ -146,9 +158,11 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
         liquidacionHastaDC = new datechooser.beans.DateChooserCombo();
         searchButton = new javax.swing.JButton();
         quitarFiltrosButton = new javax.swing.JButton();
-        txtEditar = new javax.swing.JButton();
+        editButton = new javax.swing.JButton();
+        responderButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -161,6 +175,12 @@ public class InterfazConsultaOrdenes extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -531,10 +551,17 @@ try {
         }
     });
 
-    txtEditar.setText("Editar incidencia");
-    txtEditar.addActionListener(new java.awt.event.ActionListener() {
+    editButton.setText("Editar incidencia");
+    editButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            txtEditarActionPerformed(evt);
+            editButtonActionPerformed(evt);
+        }
+    });
+
+    responderButton.setText("Responder mensaje");
+    responderButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            responderButtonActionPerformed(evt);
         }
     });
 
@@ -561,122 +588,103 @@ try {
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addComponent(jLabel8)
                             .addGap(18, 18, 18)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(liberacionDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(valorDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(liquidacionDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(entidadTF, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(estadoCB, javax.swing.GroupLayout.Alignment.LEADING, 0, 130, Short.MAX_VALUE)
-                            .addComponent(sentidoCB, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(importeDesdeTF, javax.swing.GroupLayout.Alignment.LEADING)))
-                    .addGap(51, 51, 51)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel9))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel15)
-                            .addGap(13, 13, 13)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(valorHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(refOrdenTF, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(corresponsalTF, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(divisaCB, javax.swing.GroupLayout.Alignment.LEADING, 0, 130, Short.MAX_VALUE)
-                                .addComponent(importeHastaTF, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addGap(73, 73, 73)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                                .addComponent(quitarFiltrosButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(liberacionHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(liquidacionHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(altaOrdenButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                        .addComponent(consultaButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                        .addComponent(liberarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                        .addComponent(liquidarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                        .addComponent(txtEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(liquidacionDesdeDC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(valorDesdeDC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(estadoCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(sentidoCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(importeDesdeTF)
+                        .addComponent(liberacionDesdeDC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(entidadTF))
+                    .addGap(75, 75, 75)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel15)
+                        .addComponent(jLabel14)
+                        .addComponent(jLabel13)
+                        .addComponent(jLabel12)
+                        .addComponent(jLabel11)
+                        .addComponent(jLabel10)
+                        .addComponent(jLabel9))
+                    .addGap(5, 5, 5)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(corresponsalTF, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(divisaCB, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(importeHastaTF, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(liberacionHastaDC, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(valorHastaDC, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(liquidacionHastaDC, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(refOrdenTF))
+                    .addGap(100, 100, 100)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                        .addComponent(quitarFiltrosButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(responderButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGap(25, 25, 25)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(editButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(altaOrdenButton, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                        .addComponent(consultaButton, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                        .addComponent(liquidarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                        .addComponent(liberarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE))))
             .addContainerGap())
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+        .addGroup(layout.createSequentialGroup()
             .addGap(18, 18, 18)
             .addComponent(jLabel1)
             .addGap(19, 19, 19)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addComponent(jLabel2)
+                .addComponent(entidadTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel9)
+                .addComponent(refOrdenTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel9)
-                    .addComponent(entidadTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(refOrdenTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(liberarButton)))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(liberarButton))
+            .addGap(18, 18, 18)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addComponent(jLabel3)
+                .addComponent(estadoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel10)
+                .addComponent(corresponsalTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(quitarFiltrosButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel10)
-                    .addComponent(corresponsalTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(estadoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(liquidarButton)))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(liquidarButton))
+            .addGap(18, 18, 18)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                 .addComponent(jLabel4)
+                .addComponent(sentidoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel11)
                 .addComponent(divisaCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(sentidoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(consultaButton))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel5)
-                .addComponent(jLabel12)
-                .addComponent(importeDesdeTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(importeHastaTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel13))
-                        .addComponent(liberacionHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(18, 18, 18)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(altaOrdenButton))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel14)
-                            .addComponent(valorHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtEditar)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel15)
-                                    .addComponent(liquidacionHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel8)
-                            .addGap(18, 18, 18))))
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(liberacionDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(valorDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(liquidacionDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGap(18, 18, 18)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addComponent(jLabel5)
+                .addComponent(importeDesdeTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel12)
+                .addComponent(importeHastaTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(18, 18, 18)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addComponent(jLabel6)
+                .addComponent(liberacionDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel13)
+                .addComponent(liberacionHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(18, 18, 18)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addComponent(jLabel7)
+                .addComponent(valorDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel14)
+                .addComponent(valorHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(altaOrdenButton))
+            .addGap(18, 18, 18)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addComponent(jLabel8)
+                .addComponent(liquidacionDesdeDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel15)
+                .addComponent(liquidacionHastaDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(responderButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(editButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(18, 18, 18)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addContainerGap())
     );
 
@@ -730,7 +738,7 @@ try {
                 int selected = JOptionPane.showConfirmDialog(this, "Liquidar orden", "Liquidar", JOptionPane.YES_NO_OPTION);
                 if (selected == 0) {
                     OrdenDao dao = new OrdenDao();
-                    dao.liquidarOrden(orden);
+                    dao.liquidarManualOrden(orden);
                     JOptionPane.showMessageDialog(this, "Orden liquidada correctamente");
                 }
             } else {
@@ -746,7 +754,6 @@ try {
     }//GEN-LAST:event_liquidarButtonActionPerformed
 
     private void consultaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultaButtonActionPerformed
-        // TODO add your handling code here:
         try {
             int row = jTable1.getSelectedRow();
             Orden orden = ordenes.get(row);
@@ -760,7 +767,6 @@ try {
     }//GEN-LAST:event_consultaButtonActionPerformed
 
     private void liberarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_liberarButtonActionPerformed
-        // TODO add your handling code here:
         try {
             int row = jTable1.getSelectedRow();
             Orden orden = ordenes.get(row);
@@ -771,8 +777,10 @@ try {
                     MensajeDao mensajeDao = new MensajeDao();
                     String TRN = mensajeDao.generarTrn(orden);
                     Mensaje mensaje = new Mensaje(orden,TRN);
-                    mensajeDao.añadir(mensaje);
-                }                    
+                    mensaje.setTipoMensaje(orden.getTipoMensaje());
+                    mensajeDao.añadir(mensaje);                    
+                } 
+                JOptionPane.showMessageDialog(this, "Orden liberada correctamente");
             } else {
                 JOptionPane.showMessageDialog(this, "La orden ya se ha liberado");
             }
@@ -783,7 +791,7 @@ try {
         }
     }//GEN-LAST:event_liberarButtonActionPerformed
 
-    private void txtEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEditarActionPerformed
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         // TODO add your handling code here:
         try {
             int row = jTable1.getSelectedRow();
@@ -797,13 +805,83 @@ try {
             public void windowClosed(WindowEvent e) {
                 listarConsultasOrden();
             }
-        });
+            });
 
         } catch (ArrayIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(this, "Seleccione una orden");
         }
-    }//GEN-LAST:event_txtEditarActionPerformed
+    }//GEN-LAST:event_editButtonActionPerformed
 
+    private void responderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_responderButtonActionPerformed
+        try {
+            int row = jTable1.getSelectedRow();
+            Orden orden = ordenes.get(row);
+            String estado = orden.getEstado();
+            String swift = "MT";
+            
+            OrdenDao ordenDao = new OrdenDao();
+            MensajeDao mensajeDao = new MensajeDao();
+            String TRN = mensajeDao.generarTrn(orden);
+            Mensaje mensaje = new Mensaje();
+            mensaje.setOrden(orden);
+            mensaje.setTRN(TRN);
+            if(orden.getSentido().equals("Pago")){
+                if(estado.equals("Liberada")){
+                    String selecciones[] = {"ACK","NACK"};
+                    swift = (String)JOptionPane.showInputDialog(this, "Seleccione tipo de mensaje", "Responder mensaje"
+                            , JOptionPane.QUESTION_MESSAGE, null, selecciones, selecciones[0]);
+                    mensaje.setTipoMensaje(swift);
+                    if(swift.equals("NACK"))
+                        swift = "Incidencia";
+                    ordenDao.actualizarEstado(orden, swift);
+                } else if(estado.equals("ACK")){
+                    mensaje.setTipoMensaje("MT900");
+                }
+            }else{
+                mensaje.setTipoMensaje("MT910");
+            }
+            mensaje.setTRNrecibido(ordenDao.getPrimerTRN(orden.getId()));
+            mensaje.setSwift(mensaje.responderSwift());
+            mensajeDao.añadir(mensaje);
+            if(swift.equals("MT")){
+                ordenDao.liquidarOrden(orden);
+                JOptionPane.showMessageDialog(this, "Orden liquidada correctamente");
+            }                
+        
+        } catch (ArrayIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(this, "Seleccione una orden");
+        } finally {
+            listarConsultasOrden();
+        }
+    }//GEN-LAST:event_responderButtonActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        liberarButton.setEnabled(false);
+        liquidarButton.setEnabled(false);
+        consultaButton.setEnabled(true);
+        editButton.setEnabled(false);
+        responderButton.setEnabled(false);
+        evaluarEstado();
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    public void evaluarEstado(){
+        int row = jTable1.getSelectedRow();
+        Orden orden = ordenes.get(row);
+        String estado = orden.getEstado();
+
+        if(estado.equals("No Liberado")){
+            liberarButton.setEnabled(true);
+            liquidarButton.setEnabled(true);
+        }
+        if(estado.equals("Liberada") || estado.equals("ACK")){
+            liquidarButton.setEnabled(true);
+            responderButton.setEnabled(true);
+        }
+        if(estado.equals("Incidencia")){
+            liquidarButton.setEnabled(true);
+            editButton.setEnabled(true);
+        }   
+    }
 
     /**
      * @param args the command line arguments
@@ -846,6 +924,7 @@ try {
     private javax.swing.JButton consultaButton;
     private javax.swing.JTextField corresponsalTF;
     private javax.swing.JComboBox<String> divisaCB;
+    private javax.swing.JButton editButton;
     private javax.swing.JTextField entidadTF;
     private javax.swing.JComboBox<String> estadoCB;
     private javax.swing.JTextField importeDesdeTF;
@@ -875,9 +954,9 @@ try {
     private javax.swing.JButton liquidarButton;
     private javax.swing.JButton quitarFiltrosButton;
     private javax.swing.JTextField refOrdenTF;
+    private javax.swing.JButton responderButton;
     private javax.swing.JButton searchButton;
     private javax.swing.JComboBox<String> sentidoCB;
-    private javax.swing.JButton txtEditar;
     private datechooser.beans.DateChooserCombo valorDesdeDC;
     private datechooser.beans.DateChooserCombo valorHastaDC;
     // End of variables declaration//GEN-END:variables

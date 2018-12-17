@@ -28,6 +28,7 @@ public class AltaOrden extends javax.swing.JFrame {
     public AltaOrden(Orden orden){
         initComponents();
         this.orden = orden;
+        txtAlta.setText("Actualizar orden");
         txtContrapartida.setText(orden.getContrapartida());
         txtBICContrapartida.setText(orden.getBICContrapartida());
         cbSentido.setSelectedItem(orden.getSentido());
@@ -105,6 +106,12 @@ public class AltaOrden extends javax.swing.JFrame {
         jLabel10.setText("Tipo Mensaje");
 
         jLabel11.setText("(*)Campo Obligatorio");
+
+        txtContrapartida.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtContrapartidaKeyTyped(evt);
+            }
+        });
 
         txtBICContrapartida.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -277,17 +284,14 @@ public class AltaOrden extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void alta(){
-        
+    public void alta(){        
         String BICEntidad = "BSCHESMMXXX";
         String contrapartida = txtContrapartida.getText();
         String BICContrapartida = txtBICContrapartida.getText();
         String sentido = cbSentido.getSelectedItem().toString();
-        if(cbSentido.getSelectedIndex()==0){
-            
+        if(cbSentido.getSelectedIndex()==0){            
             sentido = null;            
-        }
-        
+        }        
         
         boolean fechaOk = true;
         Date sqlDate = null;
@@ -310,13 +314,12 @@ public class AltaOrden extends javax.swing.JFrame {
             }
             
         
-        if (cbTipoMensaje.getSelectedIndex()==0){
-            
+        if (cbTipoMensaje.getSelectedIndex()==0){            
             tipoMensaje = null;
         }
         
 
-            if(validar()){ //Hecho por Ale
+            if(validar()){
                 OrdenDao dao = new OrdenDao();        
                 String refOrden = dao.refOrden();
                 double importe = Double.parseDouble(txtImporte.getText());
@@ -330,17 +333,14 @@ public class AltaOrden extends javax.swing.JFrame {
         }
     }  
     
-    public void editar(){
-        
+    public void editar(){        
         String BICEntidad = "BSCHESMMXXX";
         String contrapartida = txtContrapartida.getText();
         String BICContrapartida = txtBICContrapartida.getText();
         String sentido = cbSentido.getSelectedItem().toString();
-        if(cbSentido.getSelectedIndex()==0){
-            
+        if(cbSentido.getSelectedIndex()==0){            
             sentido = null;            
-        }
-        
+        }        
         
         boolean fechaOk = true;
         Date sqlDate = null;
@@ -363,13 +363,12 @@ public class AltaOrden extends javax.swing.JFrame {
             }
             
         
-        if (cbTipoMensaje.getSelectedIndex()==0){
-            
+        if (cbTipoMensaje.getSelectedIndex()==0){            
             tipoMensaje = null;
         }
         
 
-            if(validar()){ //Hecho por Ale
+            if(validar()){
                 OrdenDao dao = new OrdenDao();        
                 String refOrden = orden.getRefOrden();
                 double importe = Double.parseDouble(txtImporte.getText());
@@ -377,17 +376,13 @@ public class AltaOrden extends javax.swing.JFrame {
                 Orden orden = new Orden(BICEntidad, refOrden, contrapartida, BICContrapartida, sentido, importe, sqlDate,  divisa, correspPropio, cuentaCorrespPropio, correspAjeno, cuentaCorrespAjeno, tipoMensaje);
 
                 dao.edit(orden);
-                JOptionPane.showMessageDialog(null, "La orden ha sido dada de alta correctamente");  
+                JOptionPane.showMessageDialog(null, "La orden ha sido actualizada correctamente");  
                 dispose();
             }
-        }        
-        
-        
+        }         
     }
     
-    public boolean validar (){
-        
-    
+    public boolean validar (){       
         if(txtContrapartida.getText().equals("")||cbSentido.getSelectedIndex()==0||txtImporte.getText().equals("")||dateChooserPanel1.getSelectedDate() == null||txtDivisa.getText().equals("")||txtCorrespPropio.getText().equals("")||txtCorrespAjeno.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Por favor, rellene todos los campos obligatorios");
         }else{
@@ -485,6 +480,13 @@ public class AltaOrden extends javax.swing.JFrame {
             evt.consume();            
         }
     }//GEN-LAST:event_txtBICContrapartidaKeyTyped
+
+    private void txtContrapartidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContrapartidaKeyTyped
+        // TODO add your handling code here:
+        if(txtContrapartida.getText().length()>54){            
+            evt.consume();            
+        }
+    }//GEN-LAST:event_txtContrapartidaKeyTyped
 
     /**
      * @param args the command line arguments

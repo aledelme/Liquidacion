@@ -5,11 +5,12 @@
  */
 package interfacesgraficas;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import liquidacion.Filtro;
+import liquidacion.Mensaje;
 import liquidacion.MensajeDao;
 import liquidacion.Orden;
 import liquidacion.OrdenMensaje;
@@ -211,6 +212,11 @@ try {
     jLabel3.setText("TRN");
 
     btnMesnaje.setText("Ver Mensaje Swift");
+    btnMesnaje.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnMesnajeActionPerformed(evt);
+        }
+    });
 
     btnVolver.setText("Volver");
     btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -351,6 +357,7 @@ try {
         }
         dao.closeConnetion();
     }    
+  
     
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
@@ -373,6 +380,20 @@ try {
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         dispose();        
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnMesnajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesnajeActionPerformed
+        // TODO add your handling code here:
+        try {
+            int row = table.getSelectedRow();
+            Mensaje mensaje = ordenmensajes.get(row).getMensaje();
+            InterfazSwift verMensaje = new InterfazSwift(mensaje);
+            verMensaje.setLocationRelativeTo(this);
+            verMensaje.setVisible(true);
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(this, "Seleccione un mensaje");
+        }
+    }//GEN-LAST:event_btnMesnajeActionPerformed
 
     /**
      * @param args the command line arguments
